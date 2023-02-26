@@ -1,0 +1,5 @@
+﻿  Drawer.cpp
+  Ghost.cpp
+h:\downloads\ubisoft\68da786c-0585-48e8-a9e0-8c2fdcb78c23_pacman source code\pacman\pacman\ghost.cpp(83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  Pacman.vcxproj -> H:\Downloads\Ubisoft\68da786c-0585-48e8-a9e0-8c2fdcb78c23_Pacman Source Code\Pacman\Debug\Pacman.exe
