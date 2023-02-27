@@ -109,8 +109,10 @@ void Ghost::Draw(Drawer* aDrawer)
 	int offsetX = 220;
 	int offsetY = 60;
 
-	if (myIsDeadFlag)
-		aDrawer->DrawResource(aDrawer->resources["ghost_test_dead"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+	if (myIsDeadFlag) {
+		//aDrawer->DrawResource(aDrawer->resources["ghost_test_dead"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+	}
 	else if (myIsClaimableFlag) {
 		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);

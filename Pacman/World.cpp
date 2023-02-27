@@ -7,6 +7,7 @@
 #include "PathmapTile.h"
 #include "Dot.h"
 #include "BigDot.h"
+#include "Cherry.h"
 #include "Drawer.h"
 
 World::World(void)
@@ -19,52 +20,36 @@ World::~World(void)
 
 void World::Init()
 {
-	InitPathmap();
-	InitDots();
-	InitBigDots();
+	InitMap();
+	SpawnCherry();
 }
 
-bool World::InitPathmap()
+bool World::InitMap()
 {
 	std::string line;
-	std::ifstream myfile ("map.txt");
+	std::ifstream myfile("map.txt");
 	if (myfile.is_open())
 	{
 		int lineIndex = 0;
-		while (! myfile.eof() )
+		while (!myfile.eof())
 		{
-			std::getline (myfile,line);
+			std::getline(myfile, line);
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
 				PathmapTile* tile = new PathmapTile(i, lineIndex, (line[i] == 'x'));
 				myPathmapTiles.push_back(tile);
-			}
 
-			lineIndex++;
-		}
-		myfile.close();
-	}
-
-	return true;
-}
-
-bool World::InitDots()
-{
-	std::string line;
-	std::ifstream myfile ("map.txt");
-	if (myfile.is_open())
-	{
-		int lineIndex = 0;
-		while (! myfile.eof() )
-		{
-			std::getline (myfile,line);
-			for (unsigned int i = 0; i < line.length(); i++)
-			{
-				if (line[i] == '.')
-				{
-					Dot* dot = new Dot(Vector2f(i*22, lineIndex*22));
+				if (line[i] == '.') {
+					Dot* dot = new Dot(Vector2f(i * 22, lineIndex * 22));
 					myDots.push_back(dot);
 				}
+				else if (line[i] == 'o') {
+					BigDot* dot = new BigDot(Vector2f(i * 22, lineIndex * 22));
+					myBigDots.push_back(dot);
+				}
+				else if (line[i] == 'T') {
+
+				}
 			}
 
 			lineIndex++;
@@ -75,30 +60,9 @@ bool World::InitDots()
 	return true;
 }
 
-bool World::InitBigDots()
+bool World::SpawnCherry()
 {
-	std::string line;
-	std::ifstream myfile ("map.txt");
-	if (myfile.is_open())
-	{
-		int lineIndex = 0;
-		while (! myfile.eof() )
-		{
-			std::getline (myfile,line);
-			for (unsigned int i = 0; i < line.length(); i++)
-			{
-				if (line[i] == 'o')
-				{
-					BigDot* dot = new BigDot(Vector2f(i*22, lineIndex*22));
-					myBigDots.push_back(dot);
-				}
-			}
-
-			lineIndex++;
-		}
-		myfile.close();
-	}
-
+	cherry = new Cherry(Vector2f(13 * 22, 16 * 22));
 	return true;
 }
 
@@ -116,6 +80,20 @@ void World::Draw(Drawer* aDrawer)
 	{
 		BigDot* dot = *list_iter;
 		dot->Draw(aDrawer);
+	}
+
+	if(!cherry->pickedup)
+		cherry->Draw(aDrawer);
+}
+
+void World::Update() {
+	cherry->canSpawn = (cherry->dotsEatenCount >= cherry->requiredDots);
+	if (cherry->pickedup && cherry->canSpawn) {
+		cherry->cherryRespawnTimer++;
+		if (cherry->cherryRespawnTimer >= cherry->cherryRespawnDelay) {
+			cherry->pickedup = false;
+			cherry->cherryRespawnTimer = 0;
+		}
 	}
 }
 
@@ -140,11 +118,24 @@ bool World::HasIntersectedDot(const Vector2f& aPosition)
 		if ((dot->GetPosition() - aPosition).Length() < 5.f)
 		{
 			myDots.remove(dot);
+			cherry->dotsEatenCount++;
 			delete dot;
 			return true;
 		}
 	}
 
+	return false;
+}
+
+bool World::HasIntersectedCherry(const Vector2f& aPosition) {
+	if (cherry->pickedup)
+		return false;
+
+	if ((cherry->GetPosition() - aPosition).Length() < 5.f) {
+		cherry->pickedup = true;
+		cherry->requiredDots += 100;
+		return true;
+	}
 	return false;
 }
 
@@ -156,17 +147,13 @@ bool World::HasIntersectedBigDot(const Vector2f& aPosition)
 		if ((dot->GetPosition() - aPosition).Length() < 5.f)
 		{
 			myBigDots.remove(dot);
+			cherry->dotsEatenCount++;
 			delete dot;
 			return true;
 		}
 	}
 
 	return false;
-}
-
-bool World::HasIntersectedCherry(const Vector2f& aPosition)
-{
-	return true;
 }
 
 void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList)

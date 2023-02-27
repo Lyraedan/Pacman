@@ -43,15 +43,13 @@ private:
 	bool Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList);
 	bool ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList);
 
-
-	bool InitPathmap();
-	bool InitDots();
-	bool InitBigDots();
-
 	std::list<PathmapTile*> myPathmapTiles;
 	std::list<Dot*> myDots;
 	std::list<BigDot*> myBigDots;
-	std::list<Cherry*> myCherry;
+	Cherry* cherry;
+
+	bool InitMap();
+	bool SpawnCherry();
 
 };
 

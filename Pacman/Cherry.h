@@ -9,6 +9,13 @@ class Cherry : public StaticGameEntity
 public:
 	Cherry(Vector2f aPosition);
 	~Cherry(void);
+
+	bool pickedup = true;
+	int cherryRespawnTimer = 0;
+	int cherryRespawnDelay = 100;
+	int dotsEatenCount = 0;
+	int requiredDots = 70;
+	int canSpawn = true;
 };
 
 #endif // CHERRY_H

@@ -74,12 +74,17 @@ bool Pacman::Update(float aTime)
 
 	MoveAvatar();
 	myAvatar->Update(aTime);
+	myWorld->Update();
 	for (int i = 0; i < GhostCount(); i++) {
 		ghosts[i]->Update(aTime, myWorld);
 	}
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 		myScore += 10;
+
+	if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
+		myScore += 100;
+	}
 
 	myGhostGhostCounter -= aTime;
 
