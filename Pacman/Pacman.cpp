@@ -99,7 +99,6 @@ bool Pacman::Update(float aTime)
 		}
 	}
 
-	/*
 	for (int i = 0; i < GhostCount(); i++) {
 		if ((ghosts[i]->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
 		{
@@ -118,7 +117,6 @@ bool Pacman::Update(float aTime)
 			}
 		}
 	}
-	*/
 	
 	if (aTime > 0)
 		myFps = (int) (1 / aTime);
