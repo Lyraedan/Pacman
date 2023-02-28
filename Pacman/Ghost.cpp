@@ -49,7 +49,7 @@ void Ghost::Update(float aTime, World* aWorld)
 		}
 		else if (aWorld->TileIsValid(nextTileX, nextTileY))
 		{
-			SetNextTile(nextTileX, nextTileY);
+			//SetNextTile(nextTileX, nextTileY); // Allow ghosts to move weirdly
 		}
 		else
 		{
@@ -81,6 +81,7 @@ void Ghost::Update(float aTime, World* aWorld)
 		}
 	}
 
+	// Move the ghosts
 	int tileSize = 22;
 	Vector2f destination(myNextTileX * tileSize, myNextTileY * tileSize);
 	Vector2f direction = destination - myPosition;

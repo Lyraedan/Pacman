@@ -9,3 +9,9 @@ GhostBashful::GhostBashful(const Vector2f & aPosition) : Ghost(aPosition)
 GhostBashful::~GhostBashful(void)
 {
 }
+
+void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
+{
+	//myPath.clear();
+	//aWorld->GetPath(myCurrentTileX, myCurrentTileY, 26, 26, myPath);
+}

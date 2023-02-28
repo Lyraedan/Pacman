@@ -78,6 +78,7 @@ bool Pacman::Update(float aTime)
 	myAvatar->Update(aTime);
 	myWorld->Update();
 	for (int i = 0; i < GhostCount(); i++) {
+		ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
 		ghosts[i]->Update(aTime, myWorld);
 	}
 

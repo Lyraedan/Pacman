@@ -5,6 +5,7 @@
 #include "MovableGameEntity.h"
 
 class World;
+class Avatar;
 class PathmapTile;
 
 class Ghost : public MovableGameEntity
@@ -21,6 +22,8 @@ public:
 	void SetResource(const char* resourceKey);
 
 	void Die(World* aWorld);
+
+	virtual void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]) {}
 
 	void Draw(Drawer* aDrawer);
 
