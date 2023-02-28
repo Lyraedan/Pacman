@@ -77,10 +77,23 @@ bool Pacman::Update(float aTime)
 	MoveAvatar();
 	myAvatar->Update(aTime);
 	myWorld->Update();
+	/*
 	for (int i = 0; i < GhostCount(); i++) {
 		ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
 		ghosts[i]->Update(aTime, myWorld);
 	}
+	*/
+	ghosts[0]->Behaviour(myWorld, myAvatar, ghosts);
+	ghosts[0]->Update(aTime, myWorld);
+
+	ghosts[1]->Behaviour(myWorld, myAvatar, ghosts);
+	ghosts[1]->Update(aTime, myWorld);
+
+	//ghosts[2]->Behaviour(myWorld, myAvatar, ghosts);
+	//ghosts[2]->Update(aTime, myWorld);
+
+	//ghosts[3]->Behaviour(myWorld, myAvatar, ghosts);
+	//ghosts[3]->Update(aTime, myWorld);
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 		myScore += 10;
@@ -136,6 +149,7 @@ bool Pacman::Update(float aTime)
 		myScore += 20;
 		myGhostGhostCounter = 20.f;
 		for (int i = 0; i < GhostCount(); i++) {
+			ghosts[i]->ClearPath();
 			ghosts[i]->myIsClaimableFlag = true;
 		}
 	}

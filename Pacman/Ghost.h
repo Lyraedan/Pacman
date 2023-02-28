@@ -35,6 +35,10 @@ public:
 		return myCurrentTileX == nextPathX && myCurrentTileY == nextPathY;
 	}
 
+	void ClearPath() {
+		myPath.clear();
+	}
+
 protected:
 
 	float speed = 30.f;

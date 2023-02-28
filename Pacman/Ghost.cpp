@@ -21,15 +21,14 @@ Ghost::~Ghost(void)
 
 void Ghost::Die(World* aWorld)
 {
-	myPath.clear();
-	aWorld->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
+	ClearPath();
+	nextPathX = 13;
+	nextPathY = 13;
+	aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
 }
 
 void Ghost::Update(float aTime, World* aWorld)
 {
-	int nextTileX = GetCurrentTileX() + myDesiredMovementX;
-	int nextTileY = GetCurrentTileY() + myDesiredMovementY;
-
 	if (myIsDeadFlag)
 		speed = 120.f;
 
@@ -53,37 +52,13 @@ void Ghost::Update(float aTime, World* aWorld)
 			myPath.pop_front();
 			SetNextTile(nextTile->myX, nextTile->myY);
 		}
-		else if (aWorld->TileIsValid(nextTileX, nextTileY))
-		{
-			//SetNextTile(nextTileX, nextTileY); // Allow ghosts to move weirdly
-		}
-		else
-		{
-			if (myDesiredMovementX == 1)
-			{
-				myDesiredMovementX = 0;
-				myDesiredMovementY = 1;
-				eyePhase = "down";
+
+		if (HasReachedEndOfPath()) {
+			if (myIsDeadFlag) {
+				myIsClaimableFlag = false;
+				myIsDeadFlag = false;
 			}
-			else if (myDesiredMovementY == 1)
-			{
-				myDesiredMovementX = -1;
-				myDesiredMovementY = 0;
-				eyePhase = "left";
-			}
-			else if (myDesiredMovementX == -1)
-			{
-				myDesiredMovementX = 0;
-				myDesiredMovementY = -1;
-				eyePhase = "up";
-			} 
-			else
-			{
-				myDesiredMovementX = 1;
-				myDesiredMovementY = 0;
-				eyePhase = "right";
-			}
-			myIsDeadFlag = false;
+			ClearPath();
 		}
 	}
 
@@ -116,7 +91,7 @@ void Ghost::UpdateEyes(Vector2f direction)
 		eyePhase = "down";
 	else if (direction.myX == -1)
 		eyePhase = "left";
-	else
+	else if(direction.myY == -1)
 		eyePhase = "up";
 
 }

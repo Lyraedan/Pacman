@@ -29,9 +29,6 @@ void GhostShadow::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 		nextPathY = scatterY;
 	}
 
-	if (HasReachedEndOfPath()) {
-		myPath.clear();
-	}
 	if (myPath.size() == 0) {
 		if (!myIsDeadFlag) {
 			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
