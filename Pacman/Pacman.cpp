@@ -14,6 +14,8 @@
 #include "GhostBashful.h"
 #include "GhostPokey.h"
 
+#include "Teleport.h"
+
 Pacman* Pacman::Create(Drawer* aDrawer)
 {
 	Pacman* pacman = new Pacman(aDrawer);
@@ -84,6 +86,26 @@ bool Pacman::Update(float aTime)
 
 	if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
 		myScore += 100;
+	}
+
+	Teleport* currentPlayerTeleport = myWorld->HasIntersectedTeleport(myAvatar->GetPosition());
+	if (currentPlayerTeleport != NULL) {
+		if (currentPlayerTeleport->teleportIndex == 0) {
+			// Triggers left teleport
+			int x = 24;
+			int y = myAvatar->GetCurrentTileY();
+			int nextX = x - 1;
+			int nextY = myAvatar->GetCurrentTileY();
+			myAvatar->TeleportTo(x, y, nextX, nextY);
+		}
+		else {
+			// Triggers right teleport
+			int x = 1;
+			int y = myAvatar->GetCurrentTileY();
+			int nextX = x + 1;
+			int nextY = myAvatar->GetCurrentTileY();
+			myAvatar->TeleportTo(x, y, nextX, nextY);
+		}
 	}
 
 	myGhostGhostCounter -= aTime;
@@ -175,26 +197,29 @@ bool Pacman::Draw()
 		ghosts[i]->Draw(myDrawer);
 	}
 
+	int scoreX = 220;
+	int scoreY = 10;
 	std::string scoreString;
 	std::stringstream scoreStream;
 	scoreStream << myScore;
 	scoreString = scoreStream.str();
-	myDrawer->DrawText("Score", "font-joystix\\Joystix.ttf", 20, 50);
-	myDrawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", 120, 50);
+	myDrawer->DrawText("Score", "font-joystix\\Joystix.ttf", scoreX, scoreY);
+	myDrawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 100, scoreY);
 
-	std::string livesString;
-	std::stringstream liveStream;
-	liveStream << myLives;
-	livesString = liveStream.str();
-	myDrawer->DrawText("Lives", "font-joystix\\Joystix.ttf", 20, 80);
-	myDrawer->DrawText(livesString.c_str(), "font-joystix\\Joystix.ttf", 120, 80);
+	int livesX = 700 - (32 * myLives);
+	int livesY = 10;
+	for (int i = 0; i < myLives; i++) {
+		myDrawer->DrawResource(myDrawer->resources["pacman_transition_left"], livesX + 90 + (i * 32), livesY - 5);
+	}
 
-	myDrawer->DrawText("FPS", "font-joystix\\Joystix.ttf", 880, 50);
+	int fpsX = 460;
+	int fpsY = 10;
+	myDrawer->DrawText("FPS", "font-joystix\\Joystix.ttf", fpsX, fpsY);
 	std::string fpsString;
 	std::stringstream fpsStream;
 	fpsStream << myFps;
 	fpsString = fpsStream.str();
-	myDrawer->DrawText(fpsString.c_str(), "font-joystix\\Joystix.ttf", 940, 50);
+	myDrawer->DrawText(fpsString.c_str(), "font-joystix\\Joystix.ttf", fpsX + 60, fpsY);
 
 	return true;
 }
