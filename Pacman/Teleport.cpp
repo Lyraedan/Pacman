@@ -3,7 +3,7 @@
 Teleport::Teleport(Vector2f aPosition) 
 	: StaticGameEntity(aPosition) 
 {
-	activeResourceKey = "cherry";
+	activeResourceKey = "";
 }
 
 Teleport::~Teleport(void)

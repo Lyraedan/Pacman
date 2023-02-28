@@ -13,5 +13,8 @@ class GhostShadow : public Ghost
 		~GhostShadow(void);
 
 		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+
+private:
+	bool test = false;
 };
 

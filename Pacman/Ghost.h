@@ -3,10 +3,12 @@
 
 #include <list>
 #include "MovableGameEntity.h"
+#include "Vector2f.h"
 
 class World;
 class Avatar;
 class PathmapTile;
+class Vector2f;
 
 class Ghost : public MovableGameEntity
 {
@@ -23,9 +25,15 @@ public:
 
 	void Die(World* aWorld);
 
+	void UpdateEyes(Vector2f direction);
+
 	virtual void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]) {}
 
 	void Draw(Drawer* aDrawer);
+
+	bool HasReachedEndOfPath() {
+		return myCurrentTileX == nextPathX && myCurrentTileY == nextPathY;
+	}
 
 protected:
 
@@ -37,6 +45,16 @@ protected:
 	std::string name = "shadow";
 
 	std::list<PathmapTile*> myPath;
+
+	int nextPathX = 13;
+	int nextPathY = 13;
+
+	int scatterX = 0;
+	int scatterY = 0;
+
+	int scatterTimer = 0;
+	int scatterDelay = 30 * 1000;
+	bool isScattering = false;
 
 private:
 	int animation_delta_time = 0;

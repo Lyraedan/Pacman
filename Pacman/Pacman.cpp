@@ -109,6 +109,26 @@ bool Pacman::Update(float aTime)
 		}
 	}
 
+	for (int i = 0; i < GhostCount(); i++) {
+		Teleport* currentGhostTeleport = myWorld->HasIntersectedTeleport(ghosts[i]->GetPosition());
+		if (currentGhostTeleport != NULL) {
+			if (currentGhostTeleport->teleportIndex == 0) {
+				int x = 24;
+				int y = ghosts[i]->GetCurrentTileY();
+				int nextX = x - 1;
+				int nextY = ghosts[i]->GetCurrentTileY();
+				ghosts[i]->TeleportTo(x, y, nextX, nextY);
+			}
+			else {
+				int x = 1;
+				int y = ghosts[i]->GetCurrentTileY();
+				int nextX = x + 1;
+				int nextY = ghosts[i]->GetCurrentTileY();
+				ghosts[i]->TeleportTo(x, y, nextX, nextY);
+			}
+		}
+	}
+
 	myGhostGhostCounter -= aTime;
 
 	if (myWorld->HasIntersectedBigDot(myAvatar->GetPosition()))

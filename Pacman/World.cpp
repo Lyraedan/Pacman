@@ -88,12 +88,6 @@ void World::Draw(Drawer* aDrawer)
 		dot->Draw(aDrawer);
 	}
 
-	for (std::list<Teleport*>::iterator list_iter = teleports.begin(); list_iter != teleports.end(); list_iter++)
-	{
-		Teleport* teleport = *list_iter;
-		teleport->Draw(aDrawer);
-	}
-
 	if(!cherry->pickedup)
 		cherry->Draw(aDrawer);
 }

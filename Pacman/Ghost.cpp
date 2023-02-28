@@ -34,9 +34,15 @@ void Ghost::Update(float aTime, World* aWorld)
 		speed = 120.f;
 
 	animation_delta_time++;
-	if (animation_delta_time == animation_time) {
+	if (animation_delta_time >= animation_time) {
 		nextFrame = !nextFrame;
 		animation_delta_time = 0;
+	}
+
+	scatterTimer++;
+	if (scatterTimer >= scatterDelay) {
+		isScattering = true;
+		scatterTimer = 0;
 	}
 
 	if (IsAtDestination())
@@ -97,8 +103,22 @@ void Ghost::Update(float aTime, World* aWorld)
 	else
 	{
 		direction.Normalize();
+		UpdateEyes(direction);
 		myPosition += direction * distanceToMove;
 	}
+}
+
+void Ghost::UpdateEyes(Vector2f direction)
+{
+	if (direction.myX == 1)
+		eyePhase = "right";
+	else if (direction.myY == 1)
+		eyePhase = "down";
+	else if (direction.myX == -1)
+		eyePhase = "left";
+	else
+		eyePhase = "up";
+
 }
 
 void Ghost::SetResource(const char* resourceKey)
