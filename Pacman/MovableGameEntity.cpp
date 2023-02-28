@@ -13,6 +13,8 @@ MovableGameEntity::~MovableGameEntity(void)
 
 void MovableGameEntity::TeleportTo(int x, int y, int nextX, int nextY)
 {
+	myPosition.myX = x * 22;
+	myPosition.myY = y * 22;
 	myCurrentTileX = x;
 	myCurrentTileY = y;
 	SetNextTile(nextX, nextY);
