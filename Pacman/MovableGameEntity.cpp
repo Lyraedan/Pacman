@@ -11,16 +11,16 @@ MovableGameEntity::~MovableGameEntity(void)
 {
 }
 
+void MovableGameEntity::TeleportTo(int x, int y, int nextX, int nextY)
+{
+	myCurrentTileX = x;
+	myCurrentTileY = y;
+	SetNextTile(nextX, nextY);
+}
+
 bool MovableGameEntity::IsAtDestination()
 {
-	if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY)
-	{
-
-
-		return true;
-	}
-
-	return false;
+	return myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY;
 }
 
 void MovableGameEntity::SetNextTile(int anX, int anY)

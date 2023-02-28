@@ -16,6 +16,7 @@ public:
 	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
 
 	bool Intersect(GameEntity* aGameEntity);
+	void Update();
 	virtual void Draw(Drawer* aDrawer);
 
 	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }

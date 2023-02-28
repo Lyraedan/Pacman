@@ -58,23 +58,25 @@ void Ghost::Update(float aTime, World* aWorld)
 				myDesiredMovementX = 0;
 				myDesiredMovementY = 1;
 				eyePhase = "down";
-			} else if (myDesiredMovementY == 1)
+			}
+			else if (myDesiredMovementY == 1)
 			{
 				myDesiredMovementX = -1;
 				myDesiredMovementY = 0;
 				eyePhase = "left";
-			} else if (myDesiredMovementX == -1)
+			}
+			else if (myDesiredMovementX == -1)
 			{
 				myDesiredMovementX = 0;
 				myDesiredMovementY = -1;
 				eyePhase = "up";
-			} else
+			} 
+			else
 			{
 				myDesiredMovementX = 1;
 				myDesiredMovementY = 0;
 				eyePhase = "right";
 			}
-
 			myIsDeadFlag = false;
 		}
 	}

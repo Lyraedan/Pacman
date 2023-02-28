@@ -14,6 +14,8 @@ public:
 	int GetCurrentTileX() const { return myCurrentTileX; }
 	int GetCurrentTileY() const { return myCurrentTileY; }
 
+	void TeleportTo(int x, int y, int nextX, int nextY);
+
 	bool IsAtDestination();
 
 protected:

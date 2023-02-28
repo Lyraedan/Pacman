@@ -8,6 +8,7 @@
 #include "Dot.h"
 #include "BigDot.h"
 #include "Cherry.h"
+#include "Teleport.h"
 #include "Drawer.h"
 
 World::World(void)
@@ -48,7 +49,9 @@ bool World::InitMap()
 					myBigDots.push_back(dot);
 				}
 				else if (line[i] == 'T') {
-
+					Teleport* teleport = new Teleport(Vector2f(i * 22, lineIndex * 22));
+					teleport->teleportIndex = teleports.size();
+					teleports.push_back(teleport);
 				}
 			}
 
@@ -70,6 +73,8 @@ void World::Draw(Drawer* aDrawer)
 {
 	aDrawer->DrawResource(aDrawer->resources["map"]);
 	
+	// Rewrite these for loops
+
 	for(std::list<Dot*>::iterator list_iter = myDots.begin(); list_iter != myDots.end(); list_iter++)
 	{
 		Dot* dot = *list_iter;
@@ -79,7 +84,14 @@ void World::Draw(Drawer* aDrawer)
 	for(std::list<BigDot*>::iterator list_iter = myBigDots.begin(); list_iter != myBigDots.end(); list_iter++)
 	{
 		BigDot* dot = *list_iter;
+		dot->Update();
 		dot->Draw(aDrawer);
+	}
+
+	for (std::list<Teleport*>::iterator list_iter = teleports.begin(); list_iter != teleports.end(); list_iter++)
+	{
+		Teleport* teleport = *list_iter;
+		teleport->Draw(aDrawer);
 	}
 
 	if(!cherry->pickedup)
@@ -137,6 +149,19 @@ bool World::HasIntersectedCherry(const Vector2f& aPosition) {
 		return true;
 	}
 	return false;
+}
+
+Teleport* World::HasIntersectedTeleport(const Vector2f & aPosition)
+{
+	for (std::list<Teleport*>::iterator list_iter = teleports.begin(); list_iter != teleports.end(); list_iter++)
+	{
+		Teleport* teleport = *list_iter;
+		if ((teleport->GetPosition() - aPosition).Length() < 5.f)
+		{
+			return teleport;
+		}
+	}
+	return NULL;
 }
 
 bool World::HasIntersectedBigDot(const Vector2f& aPosition)

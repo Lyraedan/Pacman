@@ -64,7 +64,6 @@ bool Drawer::Init()
 	resources["ghost_pokey_feet_a"] = new GameImage("pokey_feet_a.png", myRenderer);
 	resources["ghost_pokey_feet_b"] = new GameImage("pokey_feet_b.png", myRenderer);
 
-
 	// Pacman
 	// Open
 	resources["pacman_right_open"] = new GameImage("open_right.png", myRenderer);
@@ -91,7 +90,7 @@ void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
 {
 	TTF_Font* font=TTF_OpenFont(aFontFile, 24);
 
-	SDL_Color fg={255,0,0,255};
+	SDL_Color fg={ 255, 255, 255, 255 };
 	SDL_Surface* surface = TTF_RenderText_Solid(font, aText, fg);
 
 	if (surface == NULL)

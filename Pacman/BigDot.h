@@ -9,6 +9,12 @@ class BigDot : public StaticGameEntity
 public:
 	BigDot(Vector2f aPosition);
 	~BigDot(void);
+
+	void Update();
+
+private:
+	int flashTimer = 0;
+	int flashDelay = 100;
 };
 
 #endif // BIGDOT_H

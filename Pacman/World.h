@@ -9,6 +9,7 @@ class PathmapTile;
 class Dot;
 class BigDot;
 class Cherry;
+class Teleport;
 
 class World
 {
@@ -24,17 +25,18 @@ public:
 	bool HasIntersectedDot(const Vector2f& aPosition);
 	bool HasIntersectedBigDot(const Vector2f& aPosition);
 	bool HasIntersectedCherry(const Vector2f& aPosition);
+	Teleport* HasIntersectedTeleport(const Vector2f& aPosition);
 
 	void Update();
 
 	void GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList);
 
 	int DotsCount() {
-		return sizeof(myDots) / sizeof(int);
+		return myDots.size();
 	};
 
 	int BigDotsCount() {
-		return sizeof(myBigDots) / sizeof(int);
+		return myDots.size();
 	}
 
 private:
@@ -47,6 +49,7 @@ private:
 	std::list<Dot*> myDots;
 	std::list<BigDot*> myBigDots;
 	Cherry* cherry;
+	std::list<Teleport*> teleports;
 
 	bool InitMap();
 	bool SpawnCherry();
