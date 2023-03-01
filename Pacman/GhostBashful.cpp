@@ -30,15 +30,36 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 
-		int relativeX = 0;
-		int relativeY = 0;
+		float distanceFromPacman = aWorld->DistanceFrom(pacman->myPosition, myPosition);
 
-		Vector2f pacmanPos = Vector2f(pacman->GetCurrentTileX(), pacman->GetCurrentTileY());
-		Vector2f shadowPosition = Vector2f(ghosts[0]->GetCurrentTileX(), ghosts[0]->GetCurrentTileY());
-		float dotProduct = dot(pacmanPos, shadowPosition);
+		chasingPacman = distanceFromPacman < (8 * 22);
 
-		nextPathX = isScattering ? scatterX : pacman->GetCurrentTileX();
-		nextPathY = isScattering ? scatterY : pacman->GetCurrentTileY();
+		if (HasReachedEndOfPath() && !myIsDeadFlag && !chasingPacman) {
+			currentPoint++;
+			if (currentPoint >= 4)
+				currentPoint = 0;
+		}
+
+		switch (currentPoint) {
+			case 0:
+				nextPoint = topLeft;
+				break;
+			case 1:
+				nextPoint = topRight;
+				break;
+			case 2:
+				nextPoint = bottomRight;
+				break;
+			case 3:
+				nextPoint = bottomLeft;
+				break;
+		}
+
+		int x = chasingPacman ? pacman->GetCurrentTileX() : nextPoint.myX;
+		int y = chasingPacman ? pacman->GetCurrentTileY() : nextPoint.myY;
+
+		nextPathX = isScattering ? scatterX : x;
+		nextPathY = isScattering ? scatterY : y;
 	}
 
 	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {

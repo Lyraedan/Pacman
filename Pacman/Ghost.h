@@ -43,10 +43,6 @@ public:
 		myPath.clear();
 	}
 
-	float dot(Vector2f p1, Vector2f p2) {
-		return (p1.myX * p2.myX) + (p1.myY * p2.myY);
-	}
-
 	int claimableTimer = 0;
 	int claimableLength = 1000;
 	int respawnX = 13;
