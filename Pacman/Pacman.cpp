@@ -39,10 +39,10 @@ Pacman::Pacman(Drawer* aDrawer)
 {
 	myAvatar = new Avatar(Vector2f(13*22,22*22));
 
-	ghosts[0] = new GhostShadow(Vector2f(11 * 22, 13 * 22));
-	ghosts[1] = new GhostSpeedy(Vector2f(12 * 22, 13 * 22));
-	ghosts[2] = new GhostBashful(Vector2f(13 * 22, 13 * 22));
-	ghosts[3] = new GhostPokey(Vector2f(14 * 22, 13 * 22));
+	ghosts[0] = new GhostShadow(Vector2f(12 * 22, 11 * 22));
+	ghosts[1] = new GhostSpeedy(Vector2f(11 * 22, 13 * 22));
+	ghosts[2] = new GhostBashful(Vector2f(12 * 22, 13 * 22));
+	ghosts[3] = new GhostPokey(Vector2f(13 * 22, 13 * 22));
 
 	myWorld = new World();
 }
@@ -77,23 +77,23 @@ bool Pacman::Update(float aTime)
 	MoveAvatar();
 	myAvatar->Update(aTime);
 	myWorld->Update();
-	/*
 	for (int i = 0; i < GhostCount(); i++) {
 		ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
 		ghosts[i]->Update(aTime, myWorld);
 	}
-	*/
+	/*
 	ghosts[0]->Behaviour(myWorld, myAvatar, ghosts);
 	ghosts[0]->Update(aTime, myWorld);
 
 	ghosts[1]->Behaviour(myWorld, myAvatar, ghosts);
 	ghosts[1]->Update(aTime, myWorld);
 
-	//ghosts[2]->Behaviour(myWorld, myAvatar, ghosts);
-	//ghosts[2]->Update(aTime, myWorld);
+	ghosts[2]->Behaviour(myWorld, myAvatar, ghosts);
+	ghosts[2]->Update(aTime, myWorld);
 
-	//ghosts[3]->Behaviour(myWorld, myAvatar, ghosts);
-	//ghosts[3]->Update(aTime, myWorld);
+	ghosts[3]->Behaviour(myWorld, myAvatar, ghosts);
+	ghosts[3]->Update(aTime, myWorld);
+	*/
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 		myScore += 10;

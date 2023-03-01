@@ -39,6 +39,11 @@ public:
 		return myDots.size();
 	}
 
+	float DistanceFrom(Vector2f src, Vector2f dest) {
+		return sqrt(pow(dest.myX - src.myX, 2) +
+			pow(dest.myY - src.myY, 2));
+	}
+
 private:
 
 	PathmapTile* GetTile(int aFromX, int aFromY);

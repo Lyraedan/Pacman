@@ -40,7 +40,7 @@ void Ghost::Update(float aTime, World* aWorld)
 
 	scatterTimer++;
 	if (scatterTimer >= scatterDelay) {
-		isScattering = true;
+		isScattering = !isScattering;
 		scatterTimer = 0;
 	}
 
@@ -54,6 +54,9 @@ void Ghost::Update(float aTime, World* aWorld)
 		}
 
 		if (HasReachedEndOfPath()) {
+			if (!initialSetup)
+				initialSetup = true;
+
 			if (myIsDeadFlag) {
 				myIsClaimableFlag = false;
 				myIsDeadFlag = false;
@@ -108,7 +111,6 @@ void Ghost::Draw(Drawer* aDrawer)
 	int offsetY = 60;
 
 	if (myIsDeadFlag) {
-		//aDrawer->DrawResource(aDrawer->resources["ghost_test_dead"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 	}
 	else if (myIsClaimableFlag) {

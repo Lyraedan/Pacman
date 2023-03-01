@@ -22,10 +22,11 @@ public:
 	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
 	bool IsMarkedForDelete() const { return myIdMarkedForDeleteFlag; }
 
+	Vector2f myPosition;
+
 protected:
 
 	bool myIdMarkedForDeleteFlag;
-	Vector2f myPosition;
 	std::string activeResourceKey;
 };
 

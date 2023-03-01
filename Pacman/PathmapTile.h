@@ -1,6 +1,10 @@
 #ifndef PATHMAPTILE_H
 #define PATHMAPTILE_H
 
+#include "Vector2f.h"
+
+class Vector2f;
+
 class PathmapTile
 {
 public:

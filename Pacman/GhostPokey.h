@@ -13,5 +13,8 @@ class GhostPokey : public Ghost
 		~GhostPokey(void);
 
 		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+
+private:
+	bool flee = false;
 };
 

@@ -60,6 +60,9 @@ protected:
 	int scatterDelay = 30 * 1000;
 	bool isScattering = false;
 
+	// Used to move the ghosts to their corners at the start
+	bool initialSetup = false;
+
 private:
 	int animation_delta_time = 0;
 	int animation_time = 30;
