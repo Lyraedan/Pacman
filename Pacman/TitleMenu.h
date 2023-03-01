@@ -10,6 +10,8 @@ public:
 	void Draw(Drawer* drawer);
 
 private:
-	void DrawGhostDetails(std::string ghost, const char* nickname, Drawer* drawer, int xOffset, int yOffset);
+	void DrawGhostDetails(std::string ghost, std::string nickname, Drawer* drawer, int xOffset, int yOffset, SDL_Color fg);
+	int enterFlickerTime = 0;
+	int enterFlickerDelay = 100;
 };
 

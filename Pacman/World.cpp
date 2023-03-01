@@ -110,6 +110,20 @@ bool World::TileIsValid(int anX, int anY)
 	return false;
 }
 
+PathmapTile * World::GetNearestTileTo(int x, int y)
+{
+	if (x < 0)
+		x = 0;
+	else if (x >= 25)
+		x = 25;
+	if (y < 0)
+		y = 0;
+	else if (y >= 27)
+		y = 27;
+
+	return GetTile(x, y);
+}
+
 bool World::HasIntersectedDot(const Vector2f& aPosition)
 {
 	for (Dot* dot : myDots) {

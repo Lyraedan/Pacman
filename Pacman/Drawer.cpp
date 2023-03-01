@@ -89,11 +89,10 @@ bool Drawer::Init()
 	return true;
 }
 
-void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
+void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY, SDL_Color fg)
 {
 	TTF_Font* font=TTF_OpenFont(aFontFile, 24);
 
-	SDL_Color fg={ 255, 255, 255, 255 };
 	SDL_Surface* surface = TTF_RenderText_Solid(font, aText, fg);
 
 	if (surface == NULL)

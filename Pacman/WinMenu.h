@@ -8,5 +8,9 @@ public:
 
 	void Update(float time);
 	void Draw(Drawer* drawer);
+
+private:
+	int enterFlickerTime = 0;
+	int enterFlickerDelay = 100;
 };
 

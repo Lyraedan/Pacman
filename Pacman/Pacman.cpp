@@ -54,13 +54,11 @@ bool Pacman::Update(float aTime)
 	else {
 		if (CheckEndGameCondition())
 		{
-			// myDrawer->DrawText("You win!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);
 			menu = new WinMenu(myScore);
 			return true;
 		}
 		else if (myLives <= 0)
 		{
-			// myDrawer->DrawText("You lose!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);
 			menu = new LoseMenu(myScore);
 			return true;
 		}
@@ -71,36 +69,7 @@ bool Pacman::Update(float aTime)
 		for (int i = 0; i < GhostCount(); i++) {
 			ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
 			ghosts[i]->Update(aTime, myWorld);
-		}
 
-		if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
-			myScore += 10;
-
-		if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
-			myScore += 100;
-		}
-
-		Teleport* currentPlayerTeleport = myWorld->HasIntersectedTeleport(myAvatar->GetPosition());
-		if (currentPlayerTeleport != NULL) {
-			if (currentPlayerTeleport->teleportIndex == 0) {
-				// Triggers left teleport
-				int x = 24;
-				int y = myAvatar->GetCurrentTileY();
-				int nextX = x - 1;
-				int nextY = myAvatar->GetCurrentTileY();
-				myAvatar->TeleportTo(x, y, nextX, nextY);
-			}
-			else {
-				// Triggers right teleport
-				int x = 1;
-				int y = myAvatar->GetCurrentTileY();
-				int nextX = x + 1;
-				int nextY = myAvatar->GetCurrentTileY();
-				myAvatar->TeleportTo(x, y, nextX, nextY);
-			}
-		}
-
-		for (int i = 0; i < GhostCount(); i++) {
 			Teleport* currentGhostTeleport = myWorld->HasIntersectedTeleport(ghosts[i]->GetPosition());
 			if (currentGhostTeleport != NULL) {
 				if (currentGhostTeleport->teleportIndex == 0) {
@@ -142,6 +111,33 @@ bool Pacman::Update(float aTime)
 						ghosts[j]->myIsDeadFlag = false;
 					}
 				}
+			}
+		}
+
+		if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
+			myScore += 10;
+
+		if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
+			myScore += 100;
+		}
+
+		Teleport* currentPlayerTeleport = myWorld->HasIntersectedTeleport(myAvatar->GetPosition());
+		if (currentPlayerTeleport != NULL) {
+			if (currentPlayerTeleport->teleportIndex == 0) {
+				// Triggers left teleport
+				int x = 24;
+				int y = myAvatar->GetCurrentTileY();
+				int nextX = x - 1;
+				int nextY = myAvatar->GetCurrentTileY();
+				myAvatar->TeleportTo(x, y, nextX, nextY);
+			}
+			else {
+				// Triggers right teleport
+				int x = 1;
+				int y = myAvatar->GetCurrentTileY();
+				int nextX = x + 1;
+				int nextY = myAvatar->GetCurrentTileY();
+				myAvatar->TeleportTo(x, y, nextX, nextY);
 			}
 		}
 
@@ -223,8 +219,8 @@ bool Pacman::Draw()
 		std::stringstream scoreStream;
 		scoreStream << myScore;
 		scoreString = scoreStream.str();
-		myDrawer->DrawText("Score", "font-joystix\\Joystix.ttf", scoreX, scoreY);
-		myDrawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 100, scoreY);
+		myDrawer->DrawText("Score", "font-joystix\\Joystix.ttf", scoreX, scoreY, { 255, 255, 255, 255 });
+		myDrawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 100, scoreY, { 255, 255, 255, 255 });
 
 		int livesX = 700 - (32 * myLives);
 		int livesY = 10;
@@ -234,12 +230,12 @@ bool Pacman::Draw()
 
 		int fpsX = 460;
 		int fpsY = 10;
-		myDrawer->DrawText("FPS", "font-joystix\\Joystix.ttf", fpsX, fpsY);
+		myDrawer->DrawText("FPS", "font-joystix\\Joystix.ttf", fpsX, fpsY, { 255, 255, 255, 255 });
 		std::string fpsString;
 		std::stringstream fpsStream;
 		fpsStream << myFps;
 		fpsString = fpsStream.str();
-		myDrawer->DrawText(fpsString.c_str(), "font-joystix\\Joystix.ttf", fpsX + 60, fpsY);
+		myDrawer->DrawText(fpsString.c_str(), "font-joystix\\Joystix.ttf", fpsX + 60, fpsY, { 255, 255, 255, 255 });
 	}
 	return true;
 }

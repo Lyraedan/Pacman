@@ -11,6 +11,10 @@ LoseMenu::~LoseMenu(void)
 
 void LoseMenu::Update(float time)
 {
+	enterFlickerTime++;
+	if (enterFlickerTime >= enterFlickerDelay) {
+		enterFlickerTime = 0;
+	}
 }
 
 void LoseMenu::Draw(Drawer * drawer)
@@ -19,13 +23,13 @@ void LoseMenu::Draw(Drawer * drawer)
 
 	int scoreX = 300;
 	int scoreY = 200;
-	drawer->DrawText("You scored:", "font-joystix\\Joystix.ttf", scoreX, scoreY);
+	drawer->DrawText("You scored:", "font-joystix\\Joystix.ttf", scoreX, scoreY, { 255, 255, 255, 255 });
 
 	std::string scoreString;
 	std::stringstream scoreStream;
 	scoreStream << score;
 	scoreString = scoreStream.str();
-	drawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 180, scoreY);
+	drawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 180, scoreY, { 255, 255, 255, 255 });
 
-	drawer->DrawText("Press [ESCAPE] to exit.", "font-joystix\\Joystix.ttf", scoreX, scoreY + 32);
+	drawer->DrawText(enterFlickerTime <= (enterFlickerDelay / 2) ? "" : "Press [ESCAPE] to exit!", "font-joystix\\Joystix.ttf", scoreX, scoreY + 32, { 255, 255, 255, 255 });
 }

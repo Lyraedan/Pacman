@@ -15,7 +15,7 @@ public:
 	static Drawer* Create(SDL_Window* aWindow, SDL_Renderer* aRenderer);
 	~Drawer(void);
 
-	void DrawText(const char* aText, const char* aFontFile, int aX, int aY);
+	void DrawText(const char* aText, const char* aFontFile, int aX, int aY, SDL_Color color = { 255, 255, 255, 255 });
 	
 	void DrawResource(GameImage* resource, int x = 0, int y = 0);
 

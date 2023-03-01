@@ -24,6 +24,7 @@ public:
 
 	void Draw(Drawer* aDrawer);
 	bool TileIsValid(int anX, int anY);
+	PathmapTile* GetNearestTileTo(int x, int y);
 
 	bool HasIntersectedDot(const Vector2f& aPosition);
 	bool HasIntersectedBigDot(const Vector2f& aPosition);
@@ -48,6 +49,8 @@ public:
 			   pow(dest.myY - src.myY, 2));
 	}
 
+	Cherry* cherry;
+
 private:
 
 	PathmapTile* GetTile(int aFromX, int aFromY);
@@ -57,7 +60,6 @@ private:
 	std::list<PathmapTile*> myPathmapTiles;
 	std::list<Dot*> myDots;
 	std::list<BigDot*> myBigDots;
-	Cherry* cherry;
 	std::list<Teleport*> teleports;
 
 	bool InitMap();

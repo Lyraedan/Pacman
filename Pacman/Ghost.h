@@ -4,6 +4,7 @@
 #include <list>
 #include "MovableGameEntity.h"
 #include "Vector2f.h"
+#include "PathmapTile.h"
 
 class World;
 class Avatar;

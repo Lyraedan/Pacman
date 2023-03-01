@@ -29,18 +29,18 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 		}
 	}
 	else {
+		if (initialSetup) {
+			float distanceFromPacman = aWorld->DistanceFrom(pacman->myPosition, myPosition);
 
-		float distanceFromPacman = aWorld->DistanceFrom(pacman->myPosition, myPosition);
+			chasingPacman = distanceFromPacman < (8 * 22);
 
-		chasingPacman = distanceFromPacman < (8 * 22);
+			if (HasReachedEndOfPath() && !myIsDeadFlag && !chasingPacman) {
+				currentPoint++;
+				if (currentPoint >= 4)
+					currentPoint = 0;
+			}
 
-		if (HasReachedEndOfPath() && !myIsDeadFlag && !chasingPacman) {
-			currentPoint++;
-			if (currentPoint >= 4)
-				currentPoint = 0;
-		}
-
-		switch (currentPoint) {
+			switch (currentPoint) {
 			case 0:
 				nextPoint = topLeft;
 				break;
@@ -53,13 +53,14 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 			case 3:
 				nextPoint = bottomLeft;
 				break;
+			}
+
+			int x = chasingPacman ? pacman->GetCurrentTileX() : nextPoint.myX;
+			int y = chasingPacman ? pacman->GetCurrentTileY() : nextPoint.myY;
+
+			nextPathX = isScattering ? scatterX : x;
+			nextPathY = isScattering ? scatterY : y;
 		}
-
-		int x = chasingPacman ? pacman->GetCurrentTileX() : nextPoint.myX;
-		int y = chasingPacman ? pacman->GetCurrentTileY() : nextPoint.myY;
-
-		nextPathX = isScattering ? scatterX : x;
-		nextPathY = isScattering ? scatterY : y;
 	}
 
 	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {

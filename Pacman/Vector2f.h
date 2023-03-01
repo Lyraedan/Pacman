@@ -85,6 +85,11 @@ public:
 			*this /= length;
 	}
 
+	void Vector2f::Inverse() {
+		myX *= -1;
+		myY *= -1;
+	}
+
 	float myX;
 	float myY;
 };
