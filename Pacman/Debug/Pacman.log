@@ -1,24 +1,8 @@
-﻿  Ghost.cpp
-h:\ubisoftpacman\pacman\pathmaptile.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\ghost.cpp(80): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GhostBashful.cpp
-h:\ubisoftpacman\pacman\ghostbashful.cpp(5): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\ghostbashful.cpp(6): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\ghostbashful.cpp(36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\ghostbashful.cpp(37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GhostPokey.cpp
-h:\ubisoftpacman\pacman\ghostpokey.cpp(5): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\ghostpokey.cpp(6): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-  GhostShadow.cpp
-h:\ubisoftpacman\pacman\ghostshadow.cpp(5): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\ghostshadow.cpp(6): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-  GhostSpeedy.cpp
-h:\ubisoftpacman\pacman\ghostspeedy.cpp(5): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\ghostspeedy.cpp(6): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
-  Pacman.cpp
+﻿  Pacman.cpp
 h:\ubisoftpacman\pacman\vector2f.h(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\pacman.cpp(188): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\pacman.cpp(189): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+h:\ubisoftpacman\pacman\pacman.cpp(186): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+h:\ubisoftpacman\pacman\pacman.cpp(187): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  TitleMenu.cpp
   World.cpp
 h:\ubisoftpacman\pacman\pathmaptile.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 h:\ubisoftpacman\pacman\world.cpp(46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -29,5 +13,7 @@ h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion fro
 h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 h:\ubisoftpacman\pacman\world.cpp(238): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 h:\ubisoftpacman\pacman\world.cpp(242): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+h:\ubisoftpacman\pacman\vector2f.h(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
   Generating Code...
   Pacman.vcxproj -> H:\UbisoftPacman\Debug\Pacman.exe
