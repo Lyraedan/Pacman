@@ -96,6 +96,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\libs\SDL2-2.0.5\include;..\libs\SDL2_image-2.0.1\include;..\libs\SDL2_ttf-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -118,6 +120,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Avatar.cpp" />
     <ClCompile Include="BigDot.cpp" />
     <ClCompile Include="Cherry.cpp" />
@@ -135,10 +138,12 @@
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="StaticGameEntity.cpp" />
+    <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Avatar.h" />
     <ClInclude Include="BigDot.h" />
     <ClInclude Include="Cherry.h" />
@@ -155,6 +160,7 @@
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
     <ClInclude Include="StaticGameEntity.h" />
+    <ClInclude Include="Teleport.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

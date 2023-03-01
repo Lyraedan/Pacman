@@ -1,0 +1,15 @@
+﻿  Pacman.cpp
+h:\ubisoftpacman\pacman\vector2f.h(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\pacman.cpp(38): error C2614: 'Pacman': illegal member initialization: 'myGhostGhostCounter' is not a base or member
+h:\ubisoftpacman\pacman\pacman.cpp(199): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+h:\ubisoftpacman\pacman\pacman.cpp(200): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  World.cpp
+h:\ubisoftpacman\pacman\pathmaptile.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(46): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(50): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(241): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+h:\ubisoftpacman\pacman\world.cpp(245): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data

@@ -13,6 +13,9 @@ public:
 
 	int myX;
 	int myY;
+	Vector2f myPosition() {
+		return Vector2f(myX, myY);
+	}
 	bool myIsBlockingFlag;
 	bool myIsVisitedFlag;
 
