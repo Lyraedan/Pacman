@@ -133,13 +133,17 @@
     <ClCompile Include="GhostPokey.cpp" />
     <ClCompile Include="GhostShadow.cpp" />
     <ClCompile Include="GhostSpeedy.cpp" />
+    <ClCompile Include="LoseMenu.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MovableGameEntity.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="StaticGameEntity.cpp" />
     <ClCompile Include="Teleport.cpp" />
+    <ClCompile Include="TitleMenu.cpp" />
     <ClCompile Include="Vector2f.cpp" />
+    <ClCompile Include="WinMenu.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,12 +160,16 @@
     <ClInclude Include="GhostPokey.h" />
     <ClInclude Include="GhostShadow.h" />
     <ClInclude Include="GhostSpeedy.h" />
+    <ClInclude Include="LoseMenu.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="MovableGameEntity.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
     <ClInclude Include="StaticGameEntity.h" />
     <ClInclude Include="Teleport.h" />
+    <ClInclude Include="TitleMenu.h" />
     <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="WinMenu.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

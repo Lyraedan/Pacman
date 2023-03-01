@@ -143,7 +143,7 @@ bool World::HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman)
 
 Teleport* World::HasIntersectedTeleport(const Vector2f & aPosition)
 {
-	for(auto* teleport : teleports) {
+	for(Teleport* teleport : teleports) {
 		if ((teleport->GetPosition() - aPosition).Length() < 5.f)
 		{
 			return teleport;

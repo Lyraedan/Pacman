@@ -57,9 +57,6 @@ int main(int argc, char **argv)
 	}
 
 	delete pacman;
-	for (auto element : drawer->resources) {
-		drawer->resources[element.first]->Release();
-	}
 	delete drawer;
 
 	TTF_Quit();

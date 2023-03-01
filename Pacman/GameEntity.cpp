@@ -11,12 +11,6 @@ GameEntity::~GameEntity(void)
 {
 }
 
-bool GameEntity::Intersect(GameEntity* aGameEntity)
-{
-
-	return false;	
-}
-
 void GameEntity::Update() {
 
 }

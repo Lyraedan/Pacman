@@ -25,6 +25,9 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{e401af43-93e8-4b66-a6fe-e61c7d8c3230}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Menus">
+      <UniqueIdentifier>{f22c20ee-c6d9-4b7d-8d45-df83f0a3b6af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pacman.cpp">
@@ -88,6 +91,18 @@
     <ClCompile Include="Teleport.cpp">
       <Filter>Game\Game entities\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleMenu.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMenu.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="LoseMenu.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -149,6 +164,18 @@
     </ClInclude>
     <ClInclude Include="Teleport.h">
       <Filter>Game\Game entities\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleMenu.h">
+      <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="WinMenu.h">
+      <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseMenu.h">
+      <Filter>Game\Menus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

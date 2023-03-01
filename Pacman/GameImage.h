@@ -19,6 +19,4 @@ public:
 	SDL_Surface* surface;
 	SDL_Texture* optimizedSurface;
 	SDL_Rect sizeRect;
-
-	void Release();
 };

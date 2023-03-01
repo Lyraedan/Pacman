@@ -50,6 +50,7 @@ void Ghost::Update(float aTime, World* aWorld)
 	scatterTimer++;
 	if (scatterTimer >= scatterDelay) {
 		isScattering = !isScattering;
+		scatterDelay = isScattering ? 3 * 1000 : 15 * 1000;
 		scatterTimer = 0;
 	}
 

@@ -51,10 +51,10 @@ public:
 	int claimableLength = 1000;
 	int respawnX = 13;
 	int respawnY = 13;
+	float speed = 30.f;
 
 protected:
 
-	float speed = 30.f;
 	float speedMultiplier = 5.f;
 	int myDesiredMovementX;
 	int myDesiredMovementY;
@@ -73,7 +73,7 @@ protected:
 	int spawnY = 13;
 
 	int scatterTimer = 0;
-	int scatterDelay = 5 * 1000;
+	int scatterDelay = 15 * 1000;
 	bool isScattering = false;
 
 	// Used to move the ghosts to their corners at the start
