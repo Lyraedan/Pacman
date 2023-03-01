@@ -76,6 +76,10 @@ protected:
 	// Used to move the ghosts to their corners at the start
 	bool initialSetup = false;
 
+	// Debugging
+	bool showPath = true;
+	bool showNextTarget = false;
+
 private:
 	int animation_delta_time = 0;
 	int animation_time = 30;

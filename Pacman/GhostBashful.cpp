@@ -30,6 +30,32 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 		if (initialSetup) {
+			int changeX = 0;
+			int changeY = 0;
+
+			if (pacman->direction.myX == 1)
+				changeX = 2;
+			else if (pacman->direction.myY == 1)
+				changeY = 2;
+			else if (pacman->direction.myX == -1)
+				changeX = -2;
+			else if (pacman->direction.myY == -1)
+				changeY = -2;
+
+			int targetX = (pacman->GetCurrentTileX() + changeX);
+			int targetY = (pacman->GetCurrentTileY() + changeY);
+
+			Vector2f target = Vector2f(targetX, targetY);
+			Vector2f direction = target - ghosts[0]->myPosition;
+			direction *= 2;
+
+			int tileX = abs(direction.myX);
+			int tileY = abs(direction.myY);
+
+			nextPathX = tileX / 35;
+			nextPathY = tileY / 35;
+
+			/*
 			float distanceFromPacman = aWorld->DistanceFrom(pacman->myPosition, myPosition);
 
 			chasingPacman = distanceFromPacman < (8 * 22);
@@ -60,6 +86,7 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 
 			nextPathX = isScattering ? scatterX : x;
 			nextPathY = isScattering ? scatterY : y;
+			*/
 		}
 	}
 

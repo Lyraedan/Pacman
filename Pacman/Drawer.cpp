@@ -37,6 +37,8 @@ bool Drawer::Init()
 	resources["title"] = new GameImage("title.png", myRenderer);
 	resources["win"] = new GameImage("win.png", myRenderer);
 	resources["gameover"] = new GameImage("gameover.png", myRenderer);
+	resources["target"] = new GameImage("path_dest.png", myRenderer);
+	resources["target_path"] = new GameImage("path_next.png", myRenderer);
 	
 	// Ghosts
 	resources["ghost_dead"] = new GameImage("Ghost_Dead_32.png", myRenderer);

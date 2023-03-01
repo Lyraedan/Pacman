@@ -134,4 +134,15 @@ void Ghost::Draw(Drawer* aDrawer)
 		aDrawer->DrawResource(aDrawer->resources["ghost_" + name + "_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 	}
+
+	// debugging
+	if (showPath) {
+		for (PathmapTile* tile : myPath) {
+			aDrawer->DrawResource(aDrawer->resources["target_path"], 220 + tile->myX * 22, 66 + tile->myY * 22);
+		}
+	}
+
+	if (showNextTarget) {
+		aDrawer->DrawResource(aDrawer->resources["target"], 220 + nextPathX * 22, 88 + nextPathY * 22);
+	}
 }

@@ -11,6 +11,8 @@ GhostShadow::GhostShadow(const Vector2f & aPosition) : Ghost(aPosition)
 	scatterY = 1;
 	nextPathX = scatterX;
 	nextPathY = scatterY;
+	showPath = false;
+	showNextTarget = false;
 }
 
 GhostShadow::~GhostShadow(void)
