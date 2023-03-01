@@ -30,14 +30,13 @@ Pacman* Pacman::Create(Drawer* aDrawer)
 }
 
 Pacman::Pacman(Drawer* aDrawer)
-: myDrawer(aDrawer)
-, myTimeToNextUpdate(0.f)
-, myScore(0)
-, myFps(0)
-, myLives(3)
-, myGhostGhostCounter(0.f)
+	: myDrawer(aDrawer)
+	, myTimeToNextUpdate(0.f)
+	, myScore(0)
+	, myFps(0)
+	, myLives(3)
 {
-	myAvatar = new Avatar(Vector2f(13*22,22*22));
+	myAvatar = new Avatar(Vector2f(13 * 22, 22 * 22));
 
 	ghosts[0] = new GhostShadow(Vector2f(12 * 22, 11 * 22));
 	ghosts[1] = new GhostSpeedy(Vector2f(11 * 22, 13 * 22));
@@ -70,7 +69,7 @@ bool Pacman::Update(float aTime)
 	}
 	else if (myLives <= 0)
 	{
-		myDrawer->DrawText("You lose!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);	
+		myDrawer->DrawText("You lose!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);
 		return true;
 	}
 
@@ -81,19 +80,6 @@ bool Pacman::Update(float aTime)
 		ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
 		ghosts[i]->Update(aTime, myWorld);
 	}
-	/*
-	ghosts[0]->Behaviour(myWorld, myAvatar, ghosts);
-	ghosts[0]->Update(aTime, myWorld);
-
-	ghosts[1]->Behaviour(myWorld, myAvatar, ghosts);
-	ghosts[1]->Update(aTime, myWorld);
-
-	ghosts[2]->Behaviour(myWorld, myAvatar, ghosts);
-	ghosts[2]->Update(aTime, myWorld);
-
-	ghosts[3]->Behaviour(myWorld, myAvatar, ghosts);
-	ghosts[3]->Update(aTime, myWorld);
-	*/
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 		myScore += 10;
@@ -140,48 +126,40 @@ bool Pacman::Update(float aTime)
 				ghosts[i]->TeleportTo(x, y, nextX, nextY);
 			}
 		}
-	}
 
-	myGhostGhostCounter -= aTime;
+		if (myWorld->HasIntersectedPacman(ghosts[i], myAvatar)) {
+			if (ghosts[i]->myIsClaimableFlag) {
+				if (!ghosts[i]->myIsDeadFlag) {
+					myScore += 50;
+					ghosts[i]->myIsDeadFlag = true;
+					ghosts[i]->Die(myWorld);
+				}
+			}
+			else {
+				// attack pacman
+				myLives--;
+				ghosts[i]->ClearPath();
+				myAvatar->TeleportTo(13, 22, 13, 22);
+				for (int j = 0; j < GhostCount(); j++) {
+					ghosts[j]->ClearPath();
+					ghosts[j]->TeleportTo(10 + (j + 1), 13, 11, 13);
+				}
+			}
+		}
+	}
 
 	if (myWorld->HasIntersectedBigDot(myAvatar->GetPosition()))
 	{
 		myScore += 20;
-		myGhostGhostCounter = 20.f;
 		for (int i = 0; i < GhostCount(); i++) {
 			ghosts[i]->ClearPath();
+			ghosts[i]->claimableTimer = 0;
 			ghosts[i]->myIsClaimableFlag = true;
 		}
 	}
 
-	if (myGhostGhostCounter <= 0)
-	{
-		for (int i = 0; i < GhostCount(); i++) {
-			ghosts[i]->myIsClaimableFlag = false;
-		}
-	}
-
-	for (int i = 0; i < GhostCount(); i++) {
-		if ((ghosts[i]->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
-		{
-			if (myGhostGhostCounter <= 0.f)
-			{
-				myLives--;
-
-				myAvatar->SetPosition(Vector2f(13 * 22, 22 * 22));
-				ghosts[i]->SetPosition(Vector2f(13 * 22, 13 * 22));
-			}
-			else if (ghosts[i]->myIsClaimableFlag && !ghosts[i]->myIsDeadFlag)
-			{
-				myScore += 50;
-				ghosts[i]->myIsDeadFlag = true;
-				ghosts[i]->Die(myWorld);
-			}
-		}
-	}
-	
 	if (aTime > 0)
-		myFps = (int) (1 / aTime);
+		myFps = (int)(1 / aTime);
 
 	return true;
 }

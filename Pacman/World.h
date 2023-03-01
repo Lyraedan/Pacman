@@ -6,10 +6,13 @@
 
 class Drawer;
 class PathmapTile;
+class Avatar;
+class Ghost;
 class Dot;
 class BigDot;
 class Cherry;
 class Teleport;
+class Vector2f;
 
 class World
 {
@@ -25,6 +28,7 @@ public:
 	bool HasIntersectedDot(const Vector2f& aPosition);
 	bool HasIntersectedBigDot(const Vector2f& aPosition);
 	bool HasIntersectedCherry(const Vector2f& aPosition);
+	bool HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman);
 	Teleport* HasIntersectedTeleport(const Vector2f& aPosition);
 
 	void Update();
@@ -41,7 +45,7 @@ public:
 
 	float DistanceFrom(Vector2f src, Vector2f dest) {
 		return sqrt(pow(dest.myX - src.myX, 2) +
-			pow(dest.myY - src.myY, 2));
+			   pow(dest.myY - src.myY, 2));
 	}
 
 private:

@@ -32,7 +32,6 @@ private:
 	Drawer* myDrawer;
 
 	float myTimeToNextUpdate;
-	float myGhostGhostCounter;
 
 	int myLives;
 	int myScore;

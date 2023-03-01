@@ -22,8 +22,8 @@ Ghost::~Ghost(void)
 void Ghost::Die(World* aWorld)
 {
 	ClearPath();
-	nextPathX = 13;
-	nextPathY = 13;
+	nextPathX = spawnX;
+	nextPathY = spawnY;
 	aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
 }
 
@@ -31,6 +31,15 @@ void Ghost::Update(float aTime, World* aWorld)
 {
 	if (myIsDeadFlag)
 		speed = 120.f;
+
+	if (myIsClaimableFlag) {
+		claimableTimer++;
+		if (claimableTimer >= claimableLength) {
+			claimableTimer = 0;
+			if(!myIsDeadFlag)
+				myIsClaimableFlag = false;
+		}
+	}
 
 	animation_delta_time++;
 	if (animation_delta_time >= animation_time) {
@@ -56,12 +65,13 @@ void Ghost::Update(float aTime, World* aWorld)
 		if (HasReachedEndOfPath()) {
 			if (!initialSetup)
 				initialSetup = true;
-
-			if (myIsDeadFlag) {
-				myIsClaimableFlag = false;
-				myIsDeadFlag = false;
-			}
 			ClearPath();
+		}
+
+		if (HasReachedRespawnPoint() && myIsDeadFlag) {
+			myIsClaimableFlag = false;
+			myIsDeadFlag = false;
+			speed = 30.f;
 		}
 	}
 

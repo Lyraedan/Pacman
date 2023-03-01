@@ -35,9 +35,22 @@ public:
 		return myCurrentTileX == nextPathX && myCurrentTileY == nextPathY;
 	}
 
+	bool HasReachedRespawnPoint() {
+		return myCurrentTileX == spawnX && myCurrentTileY == spawnY;
+	}
+
 	void ClearPath() {
 		myPath.clear();
 	}
+
+	float dot(Vector2f p1, Vector2f p2) {
+		return (p1.myX * p2.myX) + (p1.myY * p2.myY);
+	}
+
+	int claimableTimer = 0;
+	int claimableLength = 1000;
+	int respawnX = 13;
+	int respawnY = 13;
 
 protected:
 
@@ -56,8 +69,11 @@ protected:
 	int scatterX = 0;
 	int scatterY = 0;
 
+	int spawnX = 13;
+	int spawnY = 13;
+
 	int scatterTimer = 0;
-	int scatterDelay = 30 * 1000;
+	int scatterDelay = 5 * 1000;
 	bool isScattering = false;
 
 	// Used to move the ghosts to their corners at the start

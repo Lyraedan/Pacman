@@ -2,10 +2,12 @@
 
 GhostSpeedy::GhostSpeedy(const Vector2f & aPosition) : Ghost(aPosition)
 {
+	respawnX = aPosition.myX;
+	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_speedy";
 	name = "speedy";
 	scatterX = 0;
-	scatterY = 0;
+	scatterY = 1;
 }
 
 GhostSpeedy::~GhostSpeedy(void)
@@ -21,8 +23,10 @@ void GhostSpeedy::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (myIsClaimableFlag) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+		if (!myIsDeadFlag) {
+			nextPathX = scatterX;
+			nextPathY = scatterY;
+		}
 	}
 	else {
 		if (initialSetup) {

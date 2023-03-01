@@ -2,11 +2,13 @@
 
 GhostShadow::GhostShadow(const Vector2f & aPosition) : Ghost(aPosition)
 {
+	respawnX = aPosition.myX;
+	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_shadow";
 	name = "shadow";
 	myPath.clear();
 	scatterX = 25;
-	scatterY = 0;
+	scatterY = 1;
 	nextPathX = scatterX;
 	nextPathY = scatterY;
 }
@@ -24,8 +26,10 @@ void GhostShadow::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (myIsClaimableFlag) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+		if (!myIsDeadFlag) {
+			nextPathX = scatterX;
+			nextPathY = scatterY;
+		}
 	}
 	else {
 		if (initialSetup) {

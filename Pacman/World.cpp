@@ -5,6 +5,8 @@
 #include <string>
 
 #include "PathmapTile.h"
+#include "Ghost.h"
+#include "Avatar.h"
 #include "Dot.h"
 #include "BigDot.h"
 #include "Cherry.h"
@@ -73,17 +75,13 @@ void World::Draw(Drawer* aDrawer)
 {
 	aDrawer->DrawResource(aDrawer->resources["map"]);
 	
-	// Rewrite these for loops
-
-	for(std::list<Dot*>::iterator list_iter = myDots.begin(); list_iter != myDots.end(); list_iter++)
+	for(Dot* dot : myDots)
 	{
-		Dot* dot = *list_iter;
 		dot->Draw(aDrawer);
 	}
 
-	for(std::list<BigDot*>::iterator list_iter = myBigDots.begin(); list_iter != myBigDots.end(); list_iter++)
+	for(BigDot* dot : myBigDots)
 	{
-		BigDot* dot = *list_iter;
 		dot->Update();
 		dot->Draw(aDrawer);
 	}
@@ -136,6 +134,11 @@ bool World::HasIntersectedCherry(const Vector2f& aPosition) {
 		return true;
 	}
 	return false;
+}
+
+bool World::HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman)
+{
+	return (ghost->GetPosition() - pacman->myPosition).Length() < 5.f;
 }
 
 Teleport* World::HasIntersectedTeleport(const Vector2f & aPosition)
@@ -196,14 +199,6 @@ bool World::ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& 
 	return !(std::find(aList.begin(), aList.end(), aFromTile) != aList.end());
 }
 
-bool SortFromGhostSpawn(PathmapTile* a, PathmapTile* b)
-{
-	int la = abs(a->myX - 13) + abs(a->myY - 13);
-	int lb = abs(b->myX - 13) + abs(b->myY - 13);
-
-    return la < lb;
-}
-
 bool World::Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList)
 {
 	aFromTile->myIsVisitedFlag = true;
@@ -236,8 +231,20 @@ bool World::Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<Pat
 		neighborList.push_front(left);
 	}
 
+	neighborList.sort([aToTile](PathmapTile* a, PathmapTile* b) {
+		if (aToTile == nullptr)
+			return false;
 
-	neighborList.sort(SortFromGhostSpawn);
+		float distanceA = sqrt(pow(a->myX - aToTile->myX, 2) +
+							   pow(a->myY - aToTile->myY, 2));
+
+
+		float distanceB = sqrt(pow(b->myX - aToTile->myX, 2) +
+							   pow(b->myY - aToTile->myY, 2));
+
+		return distanceA < distanceB;
+	});
+
 	for (PathmapTile* tile : neighborList)
 	{
 		aList.push_back(tile);

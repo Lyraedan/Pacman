@@ -2,6 +2,8 @@
 
 GhostPokey::GhostPokey(const Vector2f & aPosition) : Ghost(aPosition)
 {
+	respawnX = aPosition.myX;
+	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_pokey";
 	name = "pokey";
 	scatterX = 0;
@@ -21,8 +23,10 @@ void GhostPokey::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (myIsClaimableFlag) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+		if (!myIsDeadFlag) {
+			nextPathX = scatterX;
+			nextPathY = scatterY;
+		}
 	}
 	else {
 		if (initialSetup) {
