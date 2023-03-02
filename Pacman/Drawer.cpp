@@ -37,6 +37,8 @@ bool Drawer::Init()
 	resources["title"] = new GameImage("title.png", myRenderer);
 	resources["win"] = new GameImage("win.png", myRenderer);
 	resources["gameover"] = new GameImage("gameover.png", myRenderer);
+
+	// Debugging
 	resources["target"] = new GameImage("path_dest.png", myRenderer);
 	resources["target_path"] = new GameImage("path_next.png", myRenderer);
 	
@@ -87,6 +89,21 @@ bool Drawer::Init()
 	resources["pacman_transition_left"] = new GameImage("transition_left.png", myRenderer);
 	resources["pacman_transition_up"] = new GameImage("transition_up.png", myRenderer);
 	resources["pacman_transition_down"] = new GameImage("transition_down.png", myRenderer);
+
+	// Death animation
+	resources["pacman_death_0"] = new GameImage("death_0.png", myRenderer);
+	resources["pacman_death_1"] = new GameImage("death_1.png", myRenderer);
+	resources["pacman_death_2"] = new GameImage("death_2.png", myRenderer);
+	resources["pacman_death_3"] = new GameImage("death_3.png", myRenderer);
+	resources["pacman_death_4"] = new GameImage("death_4.png", myRenderer);
+	resources["pacman_death_5"] = new GameImage("death_5.png", myRenderer);
+	resources["pacman_death_6"] = new GameImage("death_6.png", myRenderer);
+	resources["pacman_death_7"] = new GameImage("death_7.png", myRenderer);
+	resources["pacman_death_8"] = new GameImage("death_8.png", myRenderer);
+	resources["pacman_death_9"] = new GameImage("death_9.png", myRenderer);
+	resources["pacman_death_10"] = new GameImage("death_10.png", myRenderer);
+	resources["pacman_death_11"] = new GameImage("death_11.png", myRenderer);
+
 
 	return true;
 }

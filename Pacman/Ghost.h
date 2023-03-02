@@ -77,7 +77,7 @@ protected:
 	bool initialSetup = false;
 
 	// Debugging
-	bool showPath = true;
+	bool showPath = false;
 	bool showNextTarget = false;
 
 private:

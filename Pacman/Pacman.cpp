@@ -67,10 +67,11 @@ bool Pacman::Update(float aTime)
 		myAvatar->Update(aTime);
 		myWorld->Update();
 		for (int i = 0; i < GhostCount(); i++) {
-			/*
-			ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
-			ghosts[i]->Update(aTime, myWorld);
-			*/
+			if (!myAvatar->dieAnimation) {
+				ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);
+				ghosts[i]->Update(aTime, myWorld);
+			}
+
 			Teleport* currentGhostTeleport = myWorld->HasIntersectedTeleport(ghosts[i]->GetPosition());
 			if (currentGhostTeleport != NULL) {
 				if (currentGhostTeleport->teleportIndex == 0) {
@@ -99,26 +100,23 @@ bool Pacman::Update(float aTime)
 				}
 				else {
 					// attack pacman
-					myLives--;
-					ghosts[i]->ClearPath();
-					myAvatar->TeleportTo(13, 22, 13, 22);
-					for (int j = 0; j < GhostCount(); j++) {
-						ghosts[j]->ClearPath();
-						ghosts[j]->TeleportTo(10 + (j + 1), 13, 11, 13);
-						// Reset
-						ghosts[j]->speed = 30.f;
-						ghosts[j]->claimableTimer = 0;
-						ghosts[j]->myIsClaimableFlag = false;
-						ghosts[j]->myIsDeadFlag = false;
-					}
+					myAvatar->Die([=]() {
+						myLives--;
+						ghosts[i]->ClearPath();
+						myAvatar->TeleportTo(13, 22, 13, 22);
+						for (int j = 0; j < GhostCount(); j++) {
+							ghosts[j]->ClearPath();
+							ghosts[j]->TeleportTo(10 + (j + 1), 13, 11, 13);
+							// Reset
+							ghosts[j]->speed = 30.f;
+							ghosts[j]->claimableTimer = 0;
+							ghosts[j]->myIsClaimableFlag = false;
+							ghosts[j]->myIsDeadFlag = false;
+						}
+					});
 				}
 			}
 		}
-
-		ghosts[0]->Behaviour(myWorld, myAvatar, ghosts);
-		ghosts[0]->Update(aTime, myWorld);
-		ghosts[2]->Behaviour(myWorld, myAvatar, ghosts);
-		ghosts[2]->Update(aTime, myWorld);
 
 		if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 			myScore += 10;
@@ -215,8 +213,11 @@ bool Pacman::Draw()
 	else {
 		myWorld->Draw(myDrawer);
 		myAvatar->Draw(myDrawer);
-		for (int i = 0; i < GhostCount(); i++) {
-			ghosts[i]->Draw(myDrawer);
+
+		if (!myAvatar->dieAnimation) {
+			for (int i = 0; i < GhostCount(); i++) {
+				ghosts[i]->Draw(myDrawer);
+			}
 		}
 
 		int scoreX = 220;
@@ -225,8 +226,7 @@ bool Pacman::Draw()
 		std::stringstream scoreStream;
 		scoreStream << myScore;
 		scoreString = scoreStream.str();
-		myDrawer->DrawText("Score", "font-joystix\\Joystix.ttf", scoreX, scoreY, { 255, 255, 255, 255 });
-		myDrawer->DrawText(scoreString.c_str(), "font-joystix\\Joystix.ttf", scoreX + 100, scoreY, { 255, 255, 255, 255 });
+		myDrawer->DrawText(("Score " + scoreString).c_str(), "font-joystix\\Joystix.ttf", scoreX + 100, scoreY, { 255, 255, 255, 255 });
 
 		int livesX = 700 - (32 * myLives);
 		int livesY = 10;
@@ -236,12 +236,11 @@ bool Pacman::Draw()
 
 		int fpsX = 460;
 		int fpsY = 10;
-		myDrawer->DrawText("FPS", "font-joystix\\Joystix.ttf", fpsX, fpsY, { 255, 255, 255, 255 });
 		std::string fpsString;
 		std::stringstream fpsStream;
 		fpsStream << myFps;
 		fpsString = fpsStream.str();
-		myDrawer->DrawText(fpsString.c_str(), "font-joystix\\Joystix.ttf", fpsX + 60, fpsY, { 255, 255, 255, 255 });
+		myDrawer->DrawText(("FPS " + fpsString).c_str(), "font-joystix\\Joystix.ttf", fpsX + 60, fpsY, { 255, 255, 255, 255 });
 	}
 	return true;
 }

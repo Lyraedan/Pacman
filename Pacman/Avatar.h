@@ -3,6 +3,12 @@
 
 #include "MovableGameEntity.h"
 #include "Vector2f.h"
+#include "Drawer.h"
+
+#include <sstream>
+#include <functional>
+
+class Drawer;
 
 class Avatar : public MovableGameEntity
 {
@@ -12,6 +18,8 @@ public:
 
 	void Update(float aTime);
 
+	void Die(std::function<void()> func);
+
 	Vector2f myNextMovement;
 	Vector2f direction;
 
@@ -20,6 +28,7 @@ public:
 	Vector2f move_up = Vector2f(0.f, -1.f);
 	Vector2f move_down = Vector2f(0.f, 1.f);
 
+	bool dieAnimation = false;
 
 private:
 	bool open = true;
@@ -27,6 +36,10 @@ private:
 	int animation_delta_time = 0;
 	int animation_time = 30;
 	float movementSpeed = 5.f;
+
+	int death_animation_delta_time = 0;
+	int death_animation_time = 30;
+	int currentDeathFrame = 0;
 };
 
 #endif //AVATAR_H
