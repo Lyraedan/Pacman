@@ -8,6 +8,8 @@ GhostSpeedy::GhostSpeedy(const Vector2f & aPosition) : Ghost(aPosition)
 	name = "speedy";
 	scatterX = 0;
 	scatterY = 1;
+	nextPathX = scatterX;
+	nextPathY = scatterY;
 }
 
 GhostSpeedy::~GhostSpeedy(void)
@@ -30,20 +32,9 @@ void GhostSpeedy::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 		if (initialSetup) {
-			int changeX = 0;
-			int changeY = 0;
-
-			if (pacman->direction.myX == 1)
-				changeX = 2;
-			else if (pacman->direction.myY == 1)
-				changeY = 2;
-			else if (pacman->direction.myX == -1)
-				changeX = -2;
-			else if (pacman->direction.myY == -1)
-				changeY = -2;
-
-			nextPathX = isScattering ? scatterX : (pacman->GetCurrentTileX() + changeX);
-			nextPathY = isScattering ? scatterY : (pacman->GetCurrentTileY() + changeY);
+			Vector2f target = PositionRelativeToPacman(pacman, 2);
+			nextPathX = isScattering ? scatterX : (pacman->GetCurrentTileX() + target.myX);
+			nextPathY = isScattering ? scatterY : (pacman->GetCurrentTileY() + target.myY);
 		}
 	}
 

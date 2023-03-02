@@ -66,6 +66,7 @@ bool Pacman::Update(float aTime)
 		MoveAvatar();
 		myAvatar->Update(aTime);
 		myWorld->Update();
+
 		for (int i = 0; i < GhostCount(); i++) {
 			if (!myAvatar->dieAnimation) {
 				ghosts[i]->Behaviour(myWorld, myAvatar, ghosts);

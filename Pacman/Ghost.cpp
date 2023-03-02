@@ -146,3 +146,20 @@ void Ghost::Draw(Drawer* aDrawer)
 		aDrawer->DrawResource(aDrawer->resources["target"], 220 + nextPathX * 22, 88 + nextPathY * 22);
 	}
 }
+
+Vector2f Ghost::PositionRelativeToPacman(Avatar* pacman, int offset)
+{
+	int changeX = 0;
+	int changeY = 0;
+
+	if (pacman->direction.myX == 1)
+		changeX = offset;
+	else if (pacman->direction.myY == 1)
+		changeY = offset;
+	else if (pacman->direction.myX == -1)
+		changeX = -offset;
+	else if (pacman->direction.myY == -1)
+		changeY = -offset;
+
+	return Vector2f(changeX, changeY);
+}

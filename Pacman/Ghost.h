@@ -5,6 +5,7 @@
 #include "MovableGameEntity.h"
 #include "Vector2f.h"
 #include "PathmapTile.h"
+#include "Avatar.h"
 
 class World;
 class Avatar;
@@ -43,6 +44,8 @@ public:
 	void ClearPath() {
 		myPath.clear();
 	}
+
+	Vector2f PositionRelativeToPacman(Avatar* pacman, int offset);
 
 	int claimableTimer = 0;
 	int claimableLength = 1000;

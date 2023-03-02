@@ -8,6 +8,8 @@ GhostPokey::GhostPokey(const Vector2f & aPosition) : Ghost(aPosition)
 	name = "pokey";
 	scatterX = 0;
 	scatterY = 26;
+	nextPathX = scatterX;
+	nextPathY = scatterY;
 }
 
 GhostPokey::~GhostPokey(void)
