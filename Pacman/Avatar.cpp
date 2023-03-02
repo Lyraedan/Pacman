@@ -63,7 +63,7 @@ void Avatar::Update(float aTime)
 	activeResourceKey = resourceKey;
 }
 
-void Avatar::Die(std::function<void()> func)
+void Avatar::Die(std::function<void()> afterSequance)
 {
 	dieAnimation = true;
 	int numDeathFrames = 12;
@@ -74,7 +74,7 @@ void Avatar::Die(std::function<void()> func)
 	}
 
 	if (currentDeathFrame >= numDeathFrames) {
-		func();
+		afterSequance();
 		death_animation_delta_time = 0;
 		currentDeathFrame = 0;
 		dieAnimation = false;

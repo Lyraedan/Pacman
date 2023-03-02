@@ -54,6 +54,12 @@ void Ghost::Update(float aTime, World* aWorld)
 		scatterTimer = 0;
 	}
 
+	path_update_time++;
+	if (path_update_time >= path_update_interval) {
+		ClearPath();
+		path_update_time = 0;
+	}
+
 	if (IsAtDestination())
 	{
 		if (!myPath.empty())
@@ -147,7 +153,7 @@ void Ghost::Draw(Drawer* aDrawer)
 	}
 }
 
-Vector2f Ghost::PositionRelativeToPacman(Avatar* pacman, int offset)
+Vector2f Ghost::OffsetFromPacman(Avatar* pacman, int offset)
 {
 	int changeX = 0;
 	int changeY = 0;

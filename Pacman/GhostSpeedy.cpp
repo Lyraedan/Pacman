@@ -32,7 +32,7 @@ void GhostSpeedy::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 		if (initialSetup) {
-			Vector2f target = PositionRelativeToPacman(pacman, 2);
+			Vector2f target = OffsetFromPacman(pacman, 2);
 			nextPathX = isScattering ? scatterX : (pacman->GetCurrentTileX() + target.myX);
 			nextPathY = isScattering ? scatterY : (pacman->GetCurrentTileY() + target.myY);
 		}

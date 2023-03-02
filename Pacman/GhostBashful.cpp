@@ -32,7 +32,9 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 		if (initialSetup) {
-			Vector2f target = PositionRelativeToPacman(pacman, 2);
+			Vector2f pacmanPosition = pacman->myPosition;
+			pacmanPosition /= 22;
+			Vector2f target = pacmanPosition + OffsetFromPacman(pacman, 2);
 			Vector2f shadowPosition = ghosts[0]->myPosition;
 			shadowPosition /= 22;
 			Vector2f direction = shadowPosition - target;

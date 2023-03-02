@@ -45,7 +45,7 @@ public:
 		myPath.clear();
 	}
 
-	Vector2f PositionRelativeToPacman(Avatar* pacman, int offset);
+	Vector2f OffsetFromPacman(Avatar* pacman, int offset);
 
 	int claimableTimer = 0;
 	int claimableLength = 1000;
@@ -73,7 +73,7 @@ protected:
 	int spawnY = 13;
 
 	int scatterTimer = 0;
-	int scatterDelay = 15 * 1000;
+	int scatterDelay = 30 * 1000;
 	bool isScattering = false;
 
 	// Used to move the ghosts to their corners at the start
@@ -87,6 +87,9 @@ private:
 	int animation_delta_time = 0;
 	int animation_time = 30;
 	std::string eyePhase = "right";
+
+	int path_update_time = 0;
+	int path_update_interval = 1000;
 };
 
 #endif // GHOST_H

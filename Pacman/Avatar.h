@@ -18,7 +18,7 @@ public:
 
 	void Update(float aTime);
 
-	void Die(std::function<void()> func);
+	void Die(std::function<void()> afterSequance);
 
 	Vector2f myNextMovement;
 	Vector2f direction;
