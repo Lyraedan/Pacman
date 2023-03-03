@@ -48,7 +48,7 @@ public:
 	Vector2f OffsetFromPacman(Avatar* pacman, int offset);
 
 	int claimableTimer = 0;
-	int claimableLength = 1000;
+	int claimableLength = 3000;
 	int respawnX = 13;
 	int respawnY = 13;
 	float speed = 30.f;
@@ -70,7 +70,7 @@ protected:
 	int spawnY = 13;
 
 	int scatterTimer = 0;
-	int scatterDelay = 30 * 1000;
+	int scatterDelay = 15 * 1000;
 	bool isScattering = false;
 	Vector2f scatterPoints[4];
 

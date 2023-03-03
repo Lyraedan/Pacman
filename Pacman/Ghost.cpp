@@ -49,7 +49,7 @@ void Ghost::Update(float aTime, World* aWorld)
 	scatterTimer++;
 	if (scatterTimer >= scatterDelay) {
 		isScattering = !isScattering;
-		scatterDelay = isScattering ? 10 * 1000 : 30 * 1000;
+		scatterDelay = isScattering ? 3 * 1000 : 15 * 1000;
 		scatterTimer = 0;
 	}
 
@@ -127,13 +127,16 @@ void Ghost::Draw(Drawer* aDrawer)
 	int offsetX = 220;
 	int offsetY = 60;
 
+	bool warning = claimableTimer >= (claimableLength / 2) && (claimableTimer % 100 >= 50);
+	std::string warningState = warning ? "_warning" : "";
+
 	if (myIsDeadFlag) {
 		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 	}
 	else if (myIsClaimableFlag) {
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable_eyes"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState + "_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState + "_eyes"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
 	}
 	else {
 		aDrawer->DrawResource(aDrawer->resources[activeResourceKey], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);

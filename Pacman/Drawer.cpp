@@ -50,6 +50,11 @@ bool Drawer::Init()
 	resources["ghost_vulnerable_feet_a"] = new GameImage("ghost_vulnerable_feet_a.png", myRenderer);
 	resources["ghost_vulnerable_feet_b"] = new GameImage("ghost_vulnerable_feet_b.png", myRenderer);
 
+	resources["ghost_vulnerable_warning"] = new GameImage("ghost_vulnerable_warning.png", myRenderer);
+	resources["ghost_vulnerable_warning_eyes"] = new GameImage("ghost_vulnerable_warning_eyes.png", myRenderer);
+	resources["ghost_vulnerable_warning_feet_a"] = new GameImage("ghost_vulnerable_warning_feet_a.png", myRenderer);
+	resources["ghost_vulnerable_warning_feet_b"] = new GameImage("ghost_vulnerable_warning_feet_b.png", myRenderer);
+
 	resources["ghost_eyes_right"] = new GameImage("eyes_right.png", myRenderer);
 	resources["ghost_eyes_left"] = new GameImage("eyes_left.png", myRenderer);
 	resources["ghost_eyes_up"] = new GameImage("eyes_up.png", myRenderer);
