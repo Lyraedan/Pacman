@@ -36,12 +36,12 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 	}
 	else {
 		if (initialSetup) {
-			// Todo look at?
 			Vector2f pacmanPosition = pacman->myPosition;
-			pacmanPosition /= 22;
-			Vector2f target = pacmanPosition + OffsetFromPacman(pacman, 2);
 			Vector2f shadowPosition = ghosts[0]->myPosition;
+			pacmanPosition /= 22;
 			shadowPosition /= 22;
+
+			Vector2f target = pacmanPosition + OffsetFromPacman(pacman, 2);
 			Vector2f direction = shadowPosition - target;
 			Vector2f tile = target + direction;
 			nextTile = Vector2f(tile.myX, tile.myY);

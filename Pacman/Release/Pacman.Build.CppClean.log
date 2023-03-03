@@ -20,6 +20,10 @@ h:\ubisoftpacman\pacman\release\bigdot.obj
 h:\ubisoftpacman\pacman\release\avatar.obj
 h:\ubisoftpacman\pacman\release\audioengine.obj
 h:\ubisoftpacman\pacman\release\world.obj
+h:\ubisoftpacman\pacman\release\titlemenu.obj
+h:\ubisoftpacman\pacman\release\menu.obj
+h:\ubisoftpacman\pacman\release\losemenu.obj
+h:\ubisoftpacman\pacman\release\winmenu.obj
 h:\ubisoftpacman\release\pacman.exe
 h:\ubisoftpacman\release\pacman.pdb
 h:\ubisoftpacman\release\pacman.ipdb

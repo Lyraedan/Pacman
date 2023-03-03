@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 		assert(0 && "Failed to initialize video!");
 		exit(-1);
 	}
-	
+
 	SDL_Window* window = SDL_CreateWindow("Pacman", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_OPENGL);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 

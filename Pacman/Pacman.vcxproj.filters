@@ -22,11 +22,11 @@
     <Filter Include="Math">
       <UniqueIdentifier>{407f4558-6586-4bc4-8b47-e4c33e7ecfdd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{e401af43-93e8-4b66-a6fe-e61c7d8c3230}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Menus">
       <UniqueIdentifier>{f22c20ee-c6d9-4b7d-8d45-df83f0a3b6af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{be684294-d69b-4dc4-a109-ce6e1befc5a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,9 +85,6 @@
     <ClCompile Include="GameImage.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="AudioEngine.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Teleport.cpp">
       <Filter>Game\Game entities\Static</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="LoseMenu.cpp">
       <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioPlayer.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +159,6 @@
     <ClInclude Include="GhostPokey.h">
       <Filter>Game\Game entities\Movable</Filter>
     </ClInclude>
-    <ClInclude Include="AudioEngine.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Teleport.h">
       <Filter>Game\Game entities\Static</Filter>
     </ClInclude>
@@ -176,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="LoseMenu.h">
       <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioPlayer.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

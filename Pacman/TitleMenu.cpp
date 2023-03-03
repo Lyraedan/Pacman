@@ -1,7 +1,8 @@
 #include "TitleMenu.h"
 
-TitleMenu::TitleMenu() : Menu() {
-
+TitleMenu::TitleMenu() : Menu() 
+{
+	AudioPlayer::PlayWav("demosound.wav");
 }
 
 TitleMenu::~TitleMenu(void)
