@@ -34,7 +34,7 @@ public:
 	void Draw(Drawer* aDrawer);
 
 	bool HasReachedEndOfPath() {
-		return myCurrentTileX == nextPathX && myCurrentTileY == nextPathY;
+		return myCurrentTileX == nextTile.myX && myCurrentTileY == nextTile.myY;
 	}
 
 	bool HasReachedRespawnPoint() {
@@ -63,11 +63,8 @@ protected:
 
 	std::list<PathmapTile*> myPath;
 
-	int nextPathX = 13;
-	int nextPathY = 13;
-
-	int scatterX = 0;
-	int scatterY = 0;
+	Vector2f nextTile = Vector2f(13, 13);
+	int currentScatterIndex = 0;
 
 	int spawnX = 13;
 	int spawnY = 13;
@@ -75,6 +72,7 @@ protected:
 	int scatterTimer = 0;
 	int scatterDelay = 30 * 1000;
 	bool isScattering = false;
+	Vector2f scatterPoints[4];
 
 	// Used to move the ghosts to their corners at the start
 	bool initialSetup = false;

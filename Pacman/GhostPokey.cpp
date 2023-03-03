@@ -6,10 +6,11 @@ GhostPokey::GhostPokey(const Vector2f & aPosition) : Ghost(aPosition)
 	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_pokey";
 	name = "pokey";
-	scatterX = 0;
-	scatterY = 26;
-	nextPathX = scatterX;
-	nextPathY = scatterY;
+	scatterPoints[0] = Vector2f(0, 26);
+	scatterPoints[1] = Vector2f(7, 22);
+	scatterPoints[2] = Vector2f(11, 26);
+	scatterPoints[3] = Vector2f(6, 27);
+	nextTile = scatterPoints[0];
 }
 
 GhostPokey::~GhostPokey(void)
@@ -20,14 +21,17 @@ void GhostPokey::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 {
 	if (myPath.size() == 0) {
 		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
+			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
 		}
 	}
 
-	if (myIsClaimableFlag) {
+	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+		currentScatterIndex++;
+	}
+
+	if (myIsClaimableFlag || isScattering) {
 		if (!myIsDeadFlag) {
-			nextPathX = scatterX;
-			nextPathY = scatterY;
+			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
@@ -36,21 +40,23 @@ void GhostPokey::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 
 			bool inRangeOfPacman = distanceFromPacman < (8 * 22);
 
-			nextPathX = isScattering ? scatterX : pacman->GetCurrentTileX();
-			nextPathY = isScattering ? scatterY : pacman->GetCurrentTileY();
+			if (!flee) {
+				Vector2f pacmanPosition = pacman->myPosition;
+				pacmanPosition /= 22;
+				nextTile = pacmanPosition;
 
-			if (!flee && inRangeOfPacman) {
-				ClearPath();
-				nextPathX = scatterX;
-				nextPathY = scatterY;
-				flee = true;
+				if (inRangeOfPacman) {
+					ClearPath();
+					currentScatterIndex++;
+					nextTile = scatterPoints[currentScatterIndex % 4];
+					flee = true;
+				}
 			}
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+		nextTile = scatterPoints[0];
 	}
 
 	if (HasReachedEndOfPath() && flee) {

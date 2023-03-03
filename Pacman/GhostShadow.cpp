@@ -7,10 +7,11 @@ GhostShadow::GhostShadow(const Vector2f & aPosition) : Ghost(aPosition)
 	activeResourceKey = "ghost_shadow";
 	name = "shadow";
 	myPath.clear();
-	scatterX = 25;
-	scatterY = 1;
-	nextPathX = scatterX;
-	nextPathY = scatterY;
+	scatterPoints[0] = Vector2f(25, 1);
+	scatterPoints[1] = Vector2f(22, 3);
+	scatterPoints[2] = Vector2f(20, 1);
+	scatterPoints[3] = Vector2f(22, 0);
+	nextTile = scatterPoints[0];
 }
 
 GhostShadow::~GhostShadow(void)
@@ -21,25 +22,28 @@ void GhostShadow::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 {
 	if (myPath.size() == 0) {
 		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
+			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
 		}
 	}
 
-	if (myIsClaimableFlag) {
+	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+		currentScatterIndex++;
+	}
+
+	if (myIsClaimableFlag || isScattering) {
 		if (!myIsDeadFlag) {
-			nextPathX = scatterX;
-			nextPathY = scatterY;
+			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
-			nextPathX = isScattering ? scatterX : pacman->GetCurrentTileX();
-			nextPathY = isScattering ? scatterY : pacman->GetCurrentTileY();
+			Vector2f pacmanPosition = pacman->myPosition;
+			pacmanPosition /= 22;
+			nextTile = pacmanPosition;
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+		nextTile = scatterPoints[0];
 	}
 }

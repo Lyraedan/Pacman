@@ -6,10 +6,11 @@ GhostSpeedy::GhostSpeedy(const Vector2f & aPosition) : Ghost(aPosition)
 	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_speedy";
 	name = "speedy";
-	scatterX = 0;
-	scatterY = 1;
-	nextPathX = scatterX;
-	nextPathY = scatterY;
+	scatterPoints[0] = Vector2f(0, 0);
+	scatterPoints[1] = Vector2f(5, 0);
+	scatterPoints[2] = Vector2f(5, 4);
+	scatterPoints[3] = Vector2f(0, 4);
+	nextTile = scatterPoints[0];
 }
 
 GhostSpeedy::~GhostSpeedy(void)
@@ -20,26 +21,30 @@ void GhostSpeedy::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 {
 	if (myPath.size() == 0) {
 		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
+			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
 		}
 	}
 
-	if (myIsClaimableFlag) {
+	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+		currentScatterIndex++;
+	}
+
+	if (myIsClaimableFlag || isScattering) {
 		if (!myIsDeadFlag) {
-			nextPathX = scatterX;
-			nextPathY = scatterY;
+			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
 			Vector2f target = OffsetFromPacman(pacman, 2);
-			nextPathX = isScattering ? scatterX : (pacman->GetCurrentTileX() + target.myX);
-			nextPathY = isScattering ? scatterY : (pacman->GetCurrentTileY() + target.myY);
+			Vector2f pacmanPosition = pacman->myPosition;
+			pacmanPosition /= 22;
+			Vector2f tile = pacmanPosition + target;
+			nextTile = tile;
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+		nextTile = scatterPoints[0];
 	}
 }

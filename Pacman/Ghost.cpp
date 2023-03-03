@@ -22,9 +22,8 @@ Ghost::~Ghost(void)
 void Ghost::Die(World* aWorld)
 {
 	ClearPath();
-	nextPathX = spawnX;
-	nextPathY = spawnY;
-	aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
+	nextTile = Vector2f(spawnX, spawnY);
+	aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
 }
 
 void Ghost::Update(float aTime, World* aWorld)
@@ -50,13 +49,14 @@ void Ghost::Update(float aTime, World* aWorld)
 	scatterTimer++;
 	if (scatterTimer >= scatterDelay) {
 		isScattering = !isScattering;
-		scatterDelay = isScattering ? 3 * 1000 : 15 * 1000;
+		scatterDelay = isScattering ? 10 * 1000 : 30 * 1000;
 		scatterTimer = 0;
 	}
 
 	path_update_time++;
 	if (path_update_time >= path_update_interval) {
-		ClearPath();
+		if(!myIsDeadFlag)
+			ClearPath();
 		path_update_time = 0;
 	}
 
@@ -149,7 +149,7 @@ void Ghost::Draw(Drawer* aDrawer)
 	}
 
 	if (showNextTarget) {
-		aDrawer->DrawResource(aDrawer->resources["target"], 220 + nextPathX * 22, 88 + nextPathY * 22);
+		aDrawer->DrawResource(aDrawer->resources["target"], 220 + nextTile.myX * 22, 88 + nextTile.myY * 22);
 	}
 }
 

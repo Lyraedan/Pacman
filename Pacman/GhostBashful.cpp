@@ -6,10 +6,11 @@ GhostBashful::GhostBashful(const Vector2f & aPosition) : Ghost(aPosition)
 	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_bashful";
 	name = "bashful";
-	scatterX = 25;
-	scatterY = 26;
-	nextPathX = scatterX;
-	nextPathY = scatterY;
+	scatterPoints[0] = Vector2f(25, 26);
+	scatterPoints[1] = Vector2f(20, 27);
+	scatterPoints[2] = Vector2f(14, 26);
+	scatterPoints[3] = Vector2f(19, 22);
+	nextTile = scatterPoints[0];
 }
 
 GhostBashful::~GhostBashful(void)
@@ -20,18 +21,22 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 {
 	if (myPath.size() == 0) {
 		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextPathX, nextPathY, myPath);
+			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
 		}
 	}
 
-	if (myIsClaimableFlag) {
+	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+		currentScatterIndex++;
+	}
+
+	if (myIsClaimableFlag || isScattering) {
 		if (!myIsDeadFlag) {
-			nextPathX = scatterX;
-			nextPathY = scatterY;
+			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
+			// Todo look at?
 			Vector2f pacmanPosition = pacman->myPosition;
 			pacmanPosition /= 22;
 			Vector2f target = pacmanPosition + OffsetFromPacman(pacman, 2);
@@ -39,14 +44,11 @@ void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 			shadowPosition /= 22;
 			Vector2f direction = shadowPosition - target;
 			Vector2f tile = target + direction;
-
-			nextPathX = tile.myX;
-			nextPathY = tile.myY;
+			nextTile = Vector2f(tile.myX, tile.myY);
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextPathX, nextPathY)) {
-		nextPathX = scatterX;
-		nextPathY = scatterY;
+	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+		nextTile = scatterPoints[0];
 	}
 }
