@@ -24,6 +24,8 @@
 #include "LoseMenu.h"
 #include "WinMenu.h"
 
+#include "AudioPlayer.h"
+
 struct SDL_Surface;
 class Drawer;
 class Avatar;
@@ -66,7 +68,11 @@ private:
 	Ghost* ghosts[4];
 	World* myWorld;
 
+	AudioPlayer* audioPlayer;
 	Menu* menu;
+
+	int readyTime = 0;
+	int readyDelay = 6 * 190;
 };
 
 #endif // PACMAN_H

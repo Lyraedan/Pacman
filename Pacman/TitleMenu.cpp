@@ -2,7 +2,6 @@
 
 TitleMenu::TitleMenu() : Menu() 
 {
-	AudioPlayer::PlayWav("demosound.wav");
 }
 
 TitleMenu::~TitleMenu(void)

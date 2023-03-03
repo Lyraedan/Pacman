@@ -29,6 +29,8 @@ Pacman::Pacman(Drawer* aDrawer)
 
 	myWorld = new World();
 
+	audioPlayer = new AudioPlayer();
+
 	menu = new TitleMenu();
 }
 
@@ -52,6 +54,12 @@ bool Pacman::Update(float aTime)
 		menu->Update(aTime);
 	} 
 	else {
+		if (readyTime <= readyDelay) {
+			readyTime++;
+			audioPlayer->PlayWavOnce("intro.wav", 6, 190.f);
+			return true;
+		}
+
 		if (CheckEndGameCondition())
 		{
 			menu = new WinMenu(myScore);
@@ -101,6 +109,8 @@ bool Pacman::Update(float aTime)
 				}
 				else {
 					// attack pacman
+					audioPlayer->PlayWavOnce("pacman_death.wav", 1.7f, 220.f);
+
 					myAvatar->Die([=]() {
 						myLives--;
 						ghosts[i]->ClearPath();
@@ -119,8 +129,10 @@ bool Pacman::Update(float aTime)
 			}
 		}
 
-		if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
+		if (myWorld->HasIntersectedDot(myAvatar->GetPosition())) {
 			myScore += 10;
+			audioPlayer->PlayWavOnce("waka.wav", 0.25f, 5.f);
+		}
 
 		if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
 			myScore += 100;
@@ -219,6 +231,10 @@ bool Pacman::Draw()
 			for (int i = 0; i < GhostCount(); i++) {
 				ghosts[i]->Draw(myDrawer);
 			}
+		}
+
+		if (readyTime <= readyDelay) {
+			myDrawer->DrawText("Ready!", "font-joystix\\Joystix.ttf", 470, 280, { 255, 255, 0, 255 });
 		}
 
 		int scoreX = 220;
