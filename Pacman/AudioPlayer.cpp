@@ -14,7 +14,7 @@ bool AudioPlayer::PlayWavOnce(char * filename, float audioLength, float audioLen
 {
 	bool doPlay = false;
 	if (priority >= currentSoundPriority) {
-		currentSoundPriority = priority;
+		SetCurrentPriority(priority);
 
 		if (currentAudioFile != filename) {
 			currentAudioPosition = 0;
@@ -31,7 +31,7 @@ bool AudioPlayer::PlayWavOnce(char * filename, float audioLength, float audioLen
 	currentAudioPosition++;
 	if (currentAudioPosition >= currentSoundLength * currentSoundMultiplier) {
 		currentAudioPosition = 0;
-		currentSoundPriority = 0;
+		SetCurrentPriority(0);
 		currentAudioFile = "";
 		currentSoundLength = 0;
 		currentSoundMultiplier = 0;

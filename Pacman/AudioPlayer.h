@@ -4,6 +4,10 @@ class AudioPlayer {
 		bool PlayWavOnce(char* filename, float audioLength, float audioLengthMul, int priority, bool loop);
 		bool Stop();
 
+		void SetCurrentPriority(int priority) {
+			currentSoundPriority = priority;
+		}
+
 	private:
 		float currentAudioPosition = 0;
 		int currentSoundPriority = 0;
