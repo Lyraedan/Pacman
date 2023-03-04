@@ -9,10 +9,10 @@ class Avatar;
 class GhostPokey : public Ghost
 {
 	public:
-		GhostPokey(const Vector2f& aPosition);
+		GhostPokey(const Vector2f& position);
 		~GhostPokey(void);
 
-		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+		void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]);
 
 private:
 	bool flee = false;

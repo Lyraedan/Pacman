@@ -1,9 +1,8 @@
 #include "GhostBashful.h"
 
-GhostBashful::GhostBashful(const Vector2f & aPosition) : Ghost(aPosition)
+GhostBashful::GhostBashful(const Vector2f & position) : Ghost(position)
 {
-	respawnX = aPosition.myX;
-	respawnY = aPosition.myY;
+	respawn = position;
 	activeResourceKey = "ghost_bashful";
 	name = "bashful";
 	scatterPoints[0] = Vector2f(25, 26);
@@ -17,38 +16,36 @@ GhostBashful::~GhostBashful(void)
 {
 }
 
-void GhostBashful::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
+void GhostBashful::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (myPath.size() == 0) {
-		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
+	if (currentPath.size() == 0) {
+		if (!isDead) {
+			world->GetPath(currentTile, nextTile, currentPath);
 		}
 	}
 
-	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
 		currentScatterIndex++;
 	}
 
-	if (myIsClaimableFlag || isScattering) {
-		if (!myIsDeadFlag) {
+	if (isVulnerable || isScattering) {
+		if (!isDead) {
 			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
-			Vector2f pacmanPosition = pacman->myPosition;
-			Vector2f shadowPosition = ghosts[0]->myPosition;
-			pacmanPosition /= 22;
-			shadowPosition /= 22;
+			Vector2f pacmanPosition = pacman->GetPositionAsGridCoordinates();
+			Vector2f shadowPosition = ghosts[0]->GetPositionAsGridCoordinates();
 
 			Vector2f target = pacmanPosition + OffsetFromPacman(pacman, 2);
 			Vector2f direction = shadowPosition - target;
 			Vector2f tile = target + direction;
-			nextTile = Vector2f(tile.myX, tile.myY);
+			nextTile = tile;
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+	if (!world->TileIsValid(nextTile)) {
 		nextTile = scatterPoints[0];
 	}
 }

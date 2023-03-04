@@ -13,14 +13,14 @@ class Drawer;
 class Avatar : public MovableGameEntity
 {
 public:
-	Avatar(const Vector2f& aPosition);
+	Avatar(const Vector2f& position);
 	~Avatar(void);
 
-	void Update(float aTime);
+	void Update(float delta);
 
 	void Die(std::function<void()> afterSequance);
 
-	Vector2f myNextMovement;
+	Vector2f nextMovement;
 	Vector2f direction;
 
 	Vector2f move_left = Vector2f(-1.f, 0.f);

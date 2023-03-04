@@ -1,7 +1,6 @@
 h:\ubisoftpacman\pacman\release\vc141.pdb
 h:\ubisoftpacman\pacman\release\staticgameentity.obj
 h:\ubisoftpacman\pacman\release\pathmaptile.obj
-h:\ubisoftpacman\pacman\release\pacman.obj
 h:\ubisoftpacman\pacman\release\movablegameentity.obj
 h:\ubisoftpacman\pacman\release\menu.obj
 h:\ubisoftpacman\pacman\release\main.obj
@@ -27,6 +26,3 @@ h:\ubisoftpacman\pacman\release\teleport.obj
 h:\ubisoftpacman\pacman\release\pacman.tlog\cl.command.1.tlog
 h:\ubisoftpacman\pacman\release\pacman.tlog\cl.read.1.tlog
 h:\ubisoftpacman\pacman\release\pacman.tlog\cl.write.1.tlog
-h:\ubisoftpacman\pacman\release\pacman.tlog\link.command.1.tlog
-h:\ubisoftpacman\pacman\release\pacman.tlog\link.read.1.tlog
-h:\ubisoftpacman\pacman\release\pacman.tlog\link.write.1.tlog

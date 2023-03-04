@@ -15,59 +15,56 @@ class Vector2f;
 class Ghost : public MovableGameEntity
 {
 public:
-	Ghost(const Vector2f& aPosition);
+	Ghost(const Vector2f& position);
 	~Ghost(void);
 
-	void Update(float aTime, World* aWorld);
+	void Update(float delta, World* world);
 
-	bool myIsClaimableFlag;
-	bool myIsDeadFlag;
+	bool isVulnerable = false;
+	bool isDead = false;
 
 	void SetResource(const char* resourceKey);
 
-	void Die(World* aWorld);
+	void Die(World* world);
 
 	void UpdateEyes(Vector2f direction);
 
-	virtual void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]) {}
+	virtual void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]) {}
 
-	void Draw(Drawer* aDrawer);
+	void Draw(Drawer* drawer);
 
 	bool HasReachedEndOfPath() {
-		return myCurrentTileX == nextTile.myX && myCurrentTileY == nextTile.myY;
+		return currentTile == nextTile;
 	}
 
 	bool HasReachedRespawnPoint() {
-		return myCurrentTileX == spawnX && myCurrentTileY == spawnY;
+		return currentTile == respawn;
 	}
 
 	void ClearPath() {
-		myPath.clear();
+		currentPath.clear();
 	}
 
 	Vector2f OffsetFromPacman(Avatar* pacman, int offset);
 
 	int claimableTimer = 0;
 	int claimableLength = 3000;
-	int respawnX = 13;
-	int respawnY = 13;
+	Vector2f respawn = Vector2f(13, 13);
 	float speed = 30.f;
 
 protected:
 
 	float speedMultiplier = 5.f;
-	int myDesiredMovementX;
-	int myDesiredMovementY;
+	Vector2f desiredMovement = Vector2f(0, 0);
 	bool nextFrame = false;
 	std::string name = "shadow";
 
-	std::list<PathmapTile*> myPath;
+	std::list<PathmapTile*> currentPath;
 
 	Vector2f nextTile = Vector2f(13, 13);
 	int currentScatterIndex = 0;
 
-	int spawnX = 13;
-	int spawnY = 13;
+	Vector2f spawn = Vector2f(13, 13);
 
 	int scatterTimer = 0;
 	int scatterDelay = 15 * 1000;

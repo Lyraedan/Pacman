@@ -7,7 +7,7 @@
 class StaticGameEntity : public GameEntity
 {
 public:
-	StaticGameEntity(Vector2f aPosition);
+	StaticGameEntity(Vector2f position);
 	~StaticGameEntity(void);
 };
 

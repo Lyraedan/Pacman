@@ -3,40 +3,38 @@
 #include "PathmapTile.h"
 #include "Drawer.h"
 
-Ghost::Ghost(const Vector2f& aPosition)
-: MovableGameEntity(aPosition)
+Ghost::Ghost(const Vector2f& position) : MovableGameEntity(position)
 {
 	activeResourceKey = "ghost_test";
 
-	myIsClaimableFlag = false;
-	myIsDeadFlag = false;
+	isVulnerable = false;
+	isDead = false;
 
-	myDesiredMovementX = 0;
-	myDesiredMovementY = -1;
+	desiredMovement = Vector2f(0, -1);
 }
 
 Ghost::~Ghost(void)
 {
 }
 
-void Ghost::Die(World* aWorld)
+void Ghost::Die(World* world)
 {
 	ClearPath();
-	nextTile = Vector2f(spawnX, spawnY);
-	aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
+	nextTile = respawn;
+	world->GetPath(currentTile, nextTile, currentPath);
 }
 
-void Ghost::Update(float aTime, World* aWorld)
+void Ghost::Update(float delta, World* world)
 {
-	if (myIsDeadFlag)
+	if (isDead)
 		speed = 120.f;
 
-	if (myIsClaimableFlag) {
+	if (isVulnerable) {
 		claimableTimer++;
 		if (claimableTimer >= claimableLength) {
 			claimableTimer = 0;
-			if(!myIsDeadFlag)
-				myIsClaimableFlag = false;
+			if(!isDead)
+				isVulnerable = false;
 		}
 	}
 
@@ -55,18 +53,20 @@ void Ghost::Update(float aTime, World* aWorld)
 
 	path_update_time++;
 	if (path_update_time >= path_update_interval) {
-		if(!myIsDeadFlag)
+		if(!isDead)
 			ClearPath();
+
 		path_update_time = 0;
 	}
 
 	if (IsAtDestination())
 	{
-		if (!myPath.empty())
+		if (!currentPath.empty())
 		{
-			PathmapTile* nextTile = myPath.front();
-			myPath.pop_front();
-			SetNextTile(nextTile->myX, nextTile->myY);
+			PathmapTile* nextTile = currentPath.front();
+			currentPath.pop_front();
+			Vector2f nextPosition = nextTile->GetPosition();
+			SetNextTile(nextPosition.x, nextPosition.y);
 		}
 
 		if (HasReachedEndOfPath()) {
@@ -75,43 +75,42 @@ void Ghost::Update(float aTime, World* aWorld)
 			ClearPath();
 		}
 
-		if (HasReachedRespawnPoint() && myIsDeadFlag) {
-			myIsClaimableFlag = false;
-			myIsDeadFlag = false;
+		if (HasReachedRespawnPoint() && isDead) {
+			isVulnerable = false;
+			isDead = false;
 			speed = 30.f;
 		}
 	}
 
 	// Move the ghosts
 	int tileSize = 22;
-	Vector2f destination(myNextTileX * tileSize, myNextTileY * tileSize);
-	Vector2f direction = destination - myPosition;
+	Vector2f destination = Vector2f(nextTile.x * tileSize, nextTile.y * tileSize);
+	Vector2f direction = destination - GetPosition();
 
-	float distanceToMove = aTime * speed * speedMultiplier;
+	float distanceToMove = delta * speed * speedMultiplier;
 
 	if (distanceToMove > direction.Length())
 	{
-		myPosition = destination;
-		myCurrentTileX = myNextTileX;
-		myCurrentTileY = myNextTileY;
+		SetPosition(destination);
+		currentTile = nextTile;
 	}
 	else
 	{
 		direction.Normalize();
 		UpdateEyes(direction);
-		myPosition += direction * distanceToMove;
+		UpdatePosition(direction * distanceToMove);
 	}
 }
 
 void Ghost::UpdateEyes(Vector2f direction)
 {
-	if (direction.myX == 1)
+	if (direction.x == 1)
 		eyePhase = "right";
-	else if (direction.myY == 1)
+	else if (direction.y == 1)
 		eyePhase = "down";
-	else if (direction.myX == -1)
+	else if (direction.x == -1)
 		eyePhase = "left";
-	else if(direction.myY == -1)
+	else if(direction.y == -1)
 		eyePhase = "up";
 
 }
@@ -121,8 +120,10 @@ void Ghost::SetResource(const char* resourceKey)
 	this->activeResourceKey = resourceKey;
 }
 
-void Ghost::Draw(Drawer* aDrawer)
+void Ghost::Draw(Drawer* drawer)
 {
+	Vector2f position = GetPosition();
+
 	std::string foot = nextFrame ? "b" : "a";
 	int offsetX = 220;
 	int offsetY = 60;
@@ -130,29 +131,33 @@ void Ghost::Draw(Drawer* aDrawer)
 	bool warning = claimableTimer >= (claimableLength / 2) && (claimableTimer % 100 >= 50);
 	std::string warningState = warning ? "_warning" : "";
 
-	if (myIsDeadFlag) {
-		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+	int x = (int) position.x + offsetX;
+	int y = (int) position.y + offsetY;
+
+	if (isDead) {
+		drawer->DrawResource(drawer->resources["ghost_eyes_" + eyePhase], x, y);
 	}
-	else if (myIsClaimableFlag) {
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState + "_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_vulnerable" + warningState + "_eyes"], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+	else if (isVulnerable) {
+		drawer->DrawResource(drawer->resources["ghost_vulnerable" + warningState], x, y);
+		drawer->DrawResource(drawer->resources["ghost_vulnerable" + warningState + "_feet_" + foot], x, y);
+		drawer->DrawResource(drawer->resources["ghost_vulnerable" + warningState + "_eyes"], x, y);
 	}
 	else {
-		aDrawer->DrawResource(aDrawer->resources[activeResourceKey], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_" + name + "_feet_" + foot], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
-		aDrawer->DrawResource(aDrawer->resources["ghost_eyes_" + eyePhase], (int)myPosition.myX + offsetX, (int)myPosition.myY + offsetY);
+		drawer->DrawResource(drawer->resources[activeResourceKey], x, y);
+		drawer->DrawResource(drawer->resources["ghost_" + name + "_feet_" + foot], x, y);
+		drawer->DrawResource(drawer->resources["ghost_eyes_" + eyePhase], x, y);
 	}
 
 	// debugging
 	if (showPath) {
-		for (PathmapTile* tile : myPath) {
-			aDrawer->DrawResource(aDrawer->resources["target_path"], 220 + tile->myX * 22, 66 + tile->myY * 22);
+		for (PathmapTile* tile : currentPath) {
+			Vector2f tilePosition = tile->GetPosition();
+			drawer->DrawResource(drawer->resources["target_path"], 220 + tilePosition.x * 22, 66 + tilePosition.y * 22);
 		}
 	}
 
 	if (showNextTarget) {
-		aDrawer->DrawResource(aDrawer->resources["target"], 220 + nextTile.myX * 22, 88 + nextTile.myY * 22);
+		drawer->DrawResource(drawer->resources["target"], 220 + nextTile.x * 22, 88 + nextTile.y * 22);
 	}
 }
 
@@ -161,13 +166,13 @@ Vector2f Ghost::OffsetFromPacman(Avatar* pacman, int offset)
 	int changeX = 0;
 	int changeY = 0;
 
-	if (pacman->direction.myX == 1)
+	if (pacman->direction.x == 1)
 		changeX = offset;
-	else if (pacman->direction.myY == 1)
+	else if (pacman->direction.y == 1)
 		changeY = offset;
-	else if (pacman->direction.myX == -1)
+	else if (pacman->direction.x == -1)
 		changeX = -offset;
-	else if (pacman->direction.myY == -1)
+	else if (pacman->direction.y == -1)
 		changeY = -offset;
 
 	return Vector2f(changeX, changeY);

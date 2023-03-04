@@ -22,44 +22,44 @@ public:
 
 	void Init();
 
-	void Draw(Drawer* aDrawer);
-	bool TileIsValid(int anX, int anY);
+	void Draw(Drawer* drawer);
+	bool TileIsValid(Vector2f& position);
 	PathmapTile* GetNearestTileTo(int x, int y);
 
-	bool HasIntersectedDot(const Vector2f& aPosition);
-	bool HasIntersectedBigDot(const Vector2f& aPosition);
-	bool HasIntersectedCherry(const Vector2f& aPosition);
+	bool HasIntersectedDot(const Vector2f& position);
+	bool HasIntersectedBigDot(const Vector2f& position);
+	bool HasIntersectedCherry(const Vector2f& position);
 	bool HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman);
-	Teleport* HasIntersectedTeleport(const Vector2f& aPosition);
+	Teleport* HasIntersectedTeleport(const Vector2f& position);
 
 	void Update();
 
-	void GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList);
+	void GetPath(Vector2f from, Vector2f to, std::list<PathmapTile*>& currentPath);
 
 	int DotsCount() {
-		return myDots.size();
+		return dots.size();
 	};
 
 	int BigDotsCount() {
-		return myDots.size();
+		return bigDots.size();
 	}
 
 	float DistanceFrom(Vector2f src, Vector2f dest) {
-		return sqrt(pow(dest.myX - src.myX, 2) +
-			   pow(dest.myY - src.myY, 2));
+		return sqrt(pow(dest.x - src.x, 2) +
+					pow(dest.y - src.y, 2));
 	}
 
 	Cherry* cherry;
 
 private:
 
-	PathmapTile* GetTile(int aFromX, int aFromY);
-	bool Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList);
-	bool ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList);
+	PathmapTile* GetTile(Vector2f position);
+	bool Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>& currentPath);
+	bool ListDoesNotContain(PathmapTile* from, std::list<PathmapTile*>& currentPath);
 
-	std::list<PathmapTile*> myPathmapTiles;
-	std::list<Dot*> myDots;
-	std::list<BigDot*> myBigDots;
+	std::list<PathmapTile*> mapTiles;
+	std::list<Dot*> dots;
+	std::list<BigDot*> bigDots;
 	std::list<Teleport*> teleports;
 
 	bool InitMap();

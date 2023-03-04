@@ -7,24 +7,23 @@
 class MovableGameEntity : public GameEntity
 {
 public:
-	MovableGameEntity(const Vector2f& aPosition);
+	MovableGameEntity(const Vector2f& position);
 	~MovableGameEntity(void);
 
-	void SetNextTile(int anX, int anY);
-	int GetCurrentTileX() const { return myCurrentTileX; }
-	int GetCurrentTileY() const { return myCurrentTileY; }
+	void SetNextTile(int x, int y);
 
 	void TeleportTo(int x, int y, int nextX, int nextY);
 
 	bool IsAtDestination();
 
+	void UpdatePosition(Vector2f next) {
+		position += next;
+	}
+
 protected:
 
-	int myCurrentTileX;
-	int myCurrentTileY;
-
-	int myNextTileX;
-	int myNextTileY;
+	Vector2f nextTile;
+	Vector2f currentTile;
 
 };
 

@@ -40,15 +40,15 @@ bool World::InitMap()
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
 				PathmapTile* tile = new PathmapTile(i, lineIndex, (line[i] == 'x'));
-				myPathmapTiles.push_back(tile);
+				mapTiles.push_back(tile);
 
 				if (line[i] == '.') {
 					Dot* dot = new Dot(Vector2f(i * 22, lineIndex * 22));
-					myDots.push_back(dot);
+					dots.push_back(dot);
 				}
 				else if (line[i] == 'o') {
-					BigDot* dot = new BigDot(Vector2f(i * 22, lineIndex * 22));
-					myBigDots.push_back(dot);
+					BigDot* bigDot = new BigDot(Vector2f(i * 22, lineIndex * 22));
+					bigDots.push_back(bigDot);
 				}
 				else if (line[i] == 'T') {
 					Teleport* teleport = new Teleport(Vector2f(i * 22, lineIndex * 22));
@@ -71,23 +71,24 @@ bool World::SpawnCherry()
 	return true;
 }
 
-void World::Draw(Drawer* aDrawer)
+void World::Draw(Drawer* drawer)
 {
-	aDrawer->DrawResource(aDrawer->resources["map"]);
+	drawer->DrawResource(drawer->resources["map"]);
 	
-	for(Dot* dot : myDots)
+	for(Dot* dot : dots)
 	{
-		dot->Draw(aDrawer);
+		dot->Draw(drawer);
 	}
 
-	for(BigDot* dot : myBigDots)
+	for(BigDot* bigDot : bigDots)
 	{
-		dot->Update();
-		dot->Draw(aDrawer);
+		// Only call update here because it handles the dot flashing
+		bigDot->Update();
+		bigDot->Draw(drawer);
 	}
 
 	if(!cherry->pickedup)
-		cherry->Draw(aDrawer);
+		cherry->Draw(drawer);
 }
 
 void World::Update() {
@@ -101,10 +102,10 @@ void World::Update() {
 	}
 }
 
-bool World::TileIsValid(int anX, int anY)
+bool World::TileIsValid(Vector2f& position)
 {
-	for (PathmapTile* tile : myPathmapTiles) {
-		if (anX == tile->myX && anY == tile->myY && !tile->myIsBlockingFlag)
+	for (PathmapTile* tile : mapTiles) {
+		if (position == tile->GetPosition() && !tile->isSolid)
 			return true;
 	}
 	return false;
@@ -121,15 +122,15 @@ PathmapTile * World::GetNearestTileTo(int x, int y)
 	else if (y >= 27)
 		y = 27;
 
-	return GetTile(x, y);
+	return GetTile(Vector2f(x, y));
 }
 
-bool World::HasIntersectedDot(const Vector2f& aPosition)
+bool World::HasIntersectedDot(const Vector2f& position)
 {
-	for (Dot* dot : myDots) {
-		if ((dot->GetPosition() - aPosition).Length() < 5.f)
+	for (Dot* dot : dots) {
+		if ((dot->GetPosition() - position).Length() < 5.f)
 		{
-			myDots.remove(dot);
+			dots.remove(dot);
 			cherry->dotsEatenCount++;
 			delete dot;
 			return true;
@@ -152,7 +153,7 @@ bool World::HasIntersectedCherry(const Vector2f& aPosition) {
 
 bool World::HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman)
 {
-	return (ghost->GetPosition() - pacman->myPosition).Length() < 5.f;
+	return (ghost->GetPosition() - pacman->GetPosition()).Length() < 5.f;
 }
 
 Teleport* World::HasIntersectedTeleport(const Vector2f & aPosition)
@@ -168,11 +169,11 @@ Teleport* World::HasIntersectedTeleport(const Vector2f & aPosition)
 
 bool World::HasIntersectedBigDot(const Vector2f& aPosition)
 {
-	for(BigDot* dot : myBigDots)
+	for(BigDot* dot : bigDots)
 	{
 		if ((dot->GetPosition() - aPosition).Length() < 5.f)
 		{
-			myBigDots.remove(dot);
+			bigDots.remove(dot);
 			cherry->dotsEatenCount++;
 			delete dot;
 			return true;
@@ -182,25 +183,24 @@ bool World::HasIntersectedBigDot(const Vector2f& aPosition)
 	return false;
 }
 
-void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList)
+void World::GetPath(Vector2f from, Vector2f to, std::list<PathmapTile*>& aList)
 {
-	PathmapTile* fromTile = GetTile(aFromX, aFromY);
-	PathmapTile* toTile = GetTile(aToX, aToY);
+	PathmapTile* fromTile = GetTile(from);
+	PathmapTile* toTile = GetTile(to);
 
-	for(PathmapTile* tile : myPathmapTiles)
+	for(PathmapTile* tile : mapTiles)
 	{
-		tile->myIsVisitedFlag = false;
+		tile->isVisited = false;
 	}
 
 	Pathfind(fromTile, toTile, aList);
 }
 
-PathmapTile* World::GetTile(int aFromX, int aFromY)
+PathmapTile* World::GetTile(Vector2f at)
 {
-	for (PathmapTile* tile : myPathmapTiles)
+	for (PathmapTile* tile : mapTiles)
 	{
-		if (tile->myX == aFromX && tile->myY == aFromY)
-		{
+		if (tile->GetPosition() == at) {
 			return tile;
 		}
 	}
@@ -208,65 +208,71 @@ PathmapTile* World::GetTile(int aFromX, int aFromY)
 	return NULL;
 }
 
-bool World::ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList)
+bool World::ListDoesNotContain(PathmapTile* from, std::list<PathmapTile*>& currentPath)
 {
-	return !(std::find(aList.begin(), aList.end(), aFromTile) != aList.end());
+	return !(std::find(currentPath.begin(), currentPath.end(), from) != currentPath.end());
 }
 
-bool World::Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList)
+bool World::Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>& currentPath)
 {
-	aFromTile->myIsVisitedFlag = true;
+	from->isVisited = true;
 
-	if (aFromTile->myIsBlockingFlag)
+	if (from->isSolid)
 		return false;
 
-	if (aFromTile == aToTile)
+	if (from == to)
 		return true;
 
 	std::list<PathmapTile*> neighborList;
 
-	PathmapTile* up = GetTile(aFromTile->myX, aFromTile->myY - 1);
-	if (up && !up->myIsVisitedFlag && !up->myIsBlockingFlag && ListDoesNotContain(up, aList)) {
+	Vector2f fromPosition = from->GetPosition();
+
+	PathmapTile* up = GetTile(Vector2f(fromPosition.x, fromPosition.y - 1));
+	if (up && !up->isVisited && !up->isSolid && ListDoesNotContain(up, currentPath)) {
 		neighborList.push_front(up);
 	}
 
-	PathmapTile* down = GetTile(aFromTile->myX, aFromTile->myY + 1);
-	if (down && !down->myIsVisitedFlag && !down->myIsBlockingFlag && ListDoesNotContain(down, aList)) {
+	PathmapTile* down = GetTile(Vector2f(fromPosition.x, fromPosition.y + 1));
+	if (down && !down->isVisited && !down->isSolid && ListDoesNotContain(down, currentPath)) {
 		neighborList.push_front(down);
 	}
 
-	PathmapTile* right = GetTile(aFromTile->myX + 1, aFromTile->myY);
-	if (right && !right->myIsVisitedFlag && !right->myIsBlockingFlag && ListDoesNotContain(right, aList)) {
+	PathmapTile* right = GetTile(Vector2f(fromPosition.x + 1, fromPosition.y));
+	if (right && !right->isVisited && !right->isSolid && ListDoesNotContain(right, currentPath)) {
 		neighborList.push_front(right);
 	}
 
-	PathmapTile* left = GetTile(aFromTile->myX - 1, aFromTile->myY);
-	if (left && !left->myIsVisitedFlag && !left->myIsBlockingFlag && ListDoesNotContain(left, aList)) {
+	PathmapTile* left = GetTile(Vector2f(fromPosition.x - 1, fromPosition.y));
+	if (left && !left->isVisited && !left->isSolid && ListDoesNotContain(left, currentPath)) {
 		neighborList.push_front(left);
 	}
 
-	neighborList.sort([aToTile](PathmapTile* a, PathmapTile* b) {
-		if (aToTile == nullptr)
+	neighborList.sort([to](PathmapTile* a, PathmapTile* b) {
+		if (to == nullptr)
 			return false;
 
-		float distanceA = sqrt(pow(a->myX - aToTile->myX, 2) +
-							   pow(a->myY - aToTile->myY, 2));
+		Vector2f aPosition = a->GetPosition();
+		Vector2f bPosition = b->GetPosition();
+		Vector2f toPosition = to->GetPosition();
+
+		float distanceA = sqrt(pow(aPosition.x - toPosition.x, 2) +
+							   pow(aPosition.y - toPosition.y, 2));
 
 
-		float distanceB = sqrt(pow(b->myX - aToTile->myX, 2) +
-							   pow(b->myY - aToTile->myY, 2));
+		float distanceB = sqrt(pow(bPosition.x - toPosition.x, 2) +
+							   pow(bPosition.y - toPosition.y, 2));
 
 		return distanceA < distanceB;
 	});
 
 	for (PathmapTile* tile : neighborList)
 	{
-		aList.push_back(tile);
+		currentPath.push_back(tile);
 
-		if (Pathfind(tile, aToTile, aList))
+		if (Pathfind(tile, to, currentPath))
 			return true;
 
-		aList.pop_back();
+		currentPath.pop_back();
 	}
 	return false;
 }

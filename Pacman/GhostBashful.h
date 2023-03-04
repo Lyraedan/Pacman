@@ -9,9 +9,9 @@ class Avatar;
 class GhostBashful : public Ghost
 {
 	public:
-		GhostBashful(const Vector2f& aPosition);
+		GhostBashful(const Vector2f& position);
 		~GhostBashful(void);
 
-		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+		void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]);
 };
 

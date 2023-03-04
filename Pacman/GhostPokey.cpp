@@ -1,9 +1,8 @@
 #include "GhostPokey.h"
 
-GhostPokey::GhostPokey(const Vector2f & aPosition) : Ghost(aPosition)
+GhostPokey::GhostPokey(const Vector2f & position) : Ghost(position)
 {
-	respawnX = aPosition.myX;
-	respawnY = aPosition.myY;
+	respawn = position;
 	activeResourceKey = "ghost_pokey";
 	name = "pokey";
 	scatterPoints[0] = Vector2f(0, 26);
@@ -17,32 +16,31 @@ GhostPokey::~GhostPokey(void)
 {
 }
 
-void GhostPokey::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
+void GhostPokey::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (myPath.size() == 0) {
-		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
+	if (currentPath.size() == 0) {
+		if (!isDead) {
+			world->GetPath(currentTile, nextTile, currentPath);
 		}
 	}
 
-	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
 		currentScatterIndex++;
 	}
 
-	if (myIsClaimableFlag || isScattering) {
-		if (!myIsDeadFlag) {
+	if (isVulnerable || isScattering) {
+		if (!isDead) {
 			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
-			float distanceFromPacman = aWorld->DistanceFrom(pacman->myPosition, myPosition);
+			float distanceFromPacman = world->DistanceFrom(pacman->GetPosition(), GetPosition());
 
 			bool inRangeOfPacman = distanceFromPacman < (8 * 22);
 
 			if (!flee) {
-				Vector2f pacmanPosition = pacman->myPosition;
-				pacmanPosition /= 22;
+				Vector2f pacmanPosition = pacman->GetPositionAsGridCoordinates();
 				nextTile = pacmanPosition;
 
 				if (inRangeOfPacman) {
@@ -55,7 +53,7 @@ void GhostPokey::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+	if (!world->TileIsValid(nextTile)) {
 		nextTile = scatterPoints[0];
 	}
 

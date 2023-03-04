@@ -9,12 +9,10 @@ class Avatar;
 class GhostShadow : public Ghost
 {
 	public:
-		GhostShadow(const Vector2f& aPosition);
+		GhostShadow(const Vector2f& position);
 		~GhostShadow(void);
 
-		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+		void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]);
 
-private:
-	bool test = false;
 };
 

@@ -9,9 +9,9 @@ class Avatar;
 class GhostSpeedy : public Ghost
 {
 	public:
-		GhostSpeedy(const Vector2f& aPosition);
+		GhostSpeedy(const Vector2f& position);
 		~GhostSpeedy(void);
 
-		void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]);
+		void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]);
 };
 

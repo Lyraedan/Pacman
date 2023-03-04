@@ -7,7 +7,7 @@
 class Dot : public StaticGameEntity
 {
 public:
-	Dot(Vector2f aPosition);
+	Dot(Vector2f position);
 	~Dot(void);
 };
 

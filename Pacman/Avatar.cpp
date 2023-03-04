@@ -1,7 +1,6 @@
 #include "Avatar.h"
 
-Avatar::Avatar(const Vector2f& aPosition)
-	: MovableGameEntity(aPosition)
+Avatar::Avatar(const Vector2f& position) : MovableGameEntity(position)
 {
 	activeResourceKey = "pacman_right_open";
 }
@@ -10,28 +9,27 @@ Avatar::~Avatar(void)
 {
 }
 
-void Avatar::Update(float aTime)
+void Avatar::Update(float delta)
 {
 	if (dieAnimation)
 		return;
 
 	int tileSize = 22;
 
-	Vector2f destination(myNextTileX * tileSize, myNextTileY * tileSize);
-	direction = destination - myPosition;
+	Vector2f destination = Vector2f(nextTile.x * tileSize, nextTile.y * tileSize);
+	direction = destination - GetPosition();
 
-	float distanceToMove = aTime * 30.f * movementSpeed;
+	float distanceToMove = delta * 30.f * movementSpeed;
 
 	if (distanceToMove > direction.Length())
 	{
-		myPosition = destination;
-		myCurrentTileX = myNextTileX;
-		myCurrentTileY = myNextTileY;
+		SetPosition(destination);
+		currentTile = nextTile;
 	}
 	else
 	{
 		direction.Normalize();
-		myPosition += direction * distanceToMove;
+		UpdatePosition(direction * distanceToMove);
 	}
 
 	// Animate
@@ -45,16 +43,16 @@ void Avatar::Update(float aTime)
 		animation_delta_time = 0;
 	}
 
-	if (myNextMovement == move_up) {
+	if (nextMovement == move_up) {
 		facing = "up";
 	}
-	else if (myNextMovement == move_down) {
+	else if (nextMovement == move_down) {
 		facing = "down";
 	}
-	else if (myNextMovement == move_left) {
+	else if (nextMovement == move_left) {
 		facing = "left";
 	}
-	else if (myNextMovement == move_right) {
+	else if (nextMovement == move_right) {
 		facing = "right";
 	}
 
