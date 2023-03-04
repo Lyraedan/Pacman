@@ -116,7 +116,11 @@ bool World::TileIsValid(Vector2f& position)
 {
 	for (PathmapTile* tile : mapTiles) {
 		Vector2f tilePosition = tile->GetPosition();
-		if (position.x == tilePosition.x && position.y == tilePosition.y && !tile->isSolid)
+
+		float x = roundf(position.x);
+		float y = roundf(position.y);
+
+		if (x == tilePosition.x && y == tilePosition.y && !tile->isSolid)
 			return true;
 	}
 	return false;
@@ -227,6 +231,9 @@ bool World::ListDoesNotContain(PathmapTile* from, std::list<PathmapTile*>& curre
 
 bool World::Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>& currentPath)
 {
+	if (from == nullptr || to == nullptr)
+		return false;
+
 	from->isVisited = true;
 
 	if (from->isSolid)

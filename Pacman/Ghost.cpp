@@ -57,16 +57,9 @@ void Ghost::Update(float delta, World* world)
 		path_update_time = 0;
 	}
 
-	if (IsAtDestination())
+	bool followingPath = FollowPath(delta);
+	if (!followingPath)
 	{
-		if (!currentPath.empty())
-		{
-			PathmapTile* nextTile = currentPath.front();
-			currentPath.pop_front();
-			Vector2f nextPosition = nextTile->GetPosition();
-			SetNextTile(nextPosition.x, nextPosition.y);
-		}
-
 		if (HasReachedEndOfPath()) {
 			if (!initialSetup)
 				initialSetup = true;
@@ -80,10 +73,12 @@ void Ghost::Update(float delta, World* world)
 		}
 	}
 
+
 	// Move the ghosts
 	int tileSize = 22;
 	Vector2f destination = Vector2f(nextTile.x * tileSize, nextTile.y * tileSize);
-	Vector2f direction = destination - GetPosition();
+	Vector2f ghostPosition = GetPosition();
+	Vector2f direction = destination - ghostPosition;
 
 	float distanceToMove = delta * speed * speedMultiplier;
 
@@ -157,6 +152,21 @@ void Ghost::Draw(Drawer* drawer)
 	if (showNextTarget) {
 		drawer->DrawResource(drawer->resources["target"], 220 + nextTile.x * 22, 88 + nextTile.y * 22);
 	}
+}
+
+bool Ghost::FollowPath(float delta)
+{
+	if (currentPath.empty())
+		return false;
+
+	Vector2f next = currentPath.front()->GetPosition();
+	nextTile = next;
+	bool atNext = currentTile == nextTile;
+	if (atNext) {
+		currentPath.pop_front();
+		return true;
+	}
+	return false;
 }
 
 Vector2f Ghost::OffsetFromPacman(Avatar* pacman, int offset)

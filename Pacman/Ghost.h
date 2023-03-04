@@ -33,12 +33,23 @@ public:
 
 	void Draw(Drawer* drawer);
 
+	bool FollowPath(float delta);
+
 	bool HasReachedEndOfPath() {
-		return currentTile == nextTile;
+		if (currentPath.empty())
+			return true;
+
+		PathmapTile* last = currentPath.back();
+		Vector2f lastPosition = last->GetPosition();
+		return currentTile == lastPosition;
 	}
 
 	bool HasReachedRespawnPoint() {
 		return currentTile == respawn;
+	}
+
+	PathmapTile* GetPathTile(int index) {
+
 	}
 
 	void ClearPath() {

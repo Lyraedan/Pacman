@@ -20,6 +20,7 @@ void MovableGameEntity::TeleportTo(int x, int y, int nextX, int nextY)
 	SetNextTile(nextX, nextY);
 }
 
+// HasReachedEndOfPath duplicate
 bool MovableGameEntity::IsAtDestination()
 {
 	return currentTile == nextTile;

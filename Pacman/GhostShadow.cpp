@@ -19,7 +19,7 @@ GhostShadow::~GhostShadow(void)
 
 void GhostShadow::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (currentPath.size() == 0) {
+	if (currentPath.empty()) {
 		if (!isDead) {
 			world->GetPath(currentTile, nextTile, currentPath);
 		}
@@ -42,6 +42,7 @@ void GhostShadow::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (!world->TileIsValid(nextTile)) {
-		nextTile = scatterPoints[0];
+		nextTile = scatterPoints[currentScatterIndex % 4];
+		currentScatterIndex++;
 	}
 }
