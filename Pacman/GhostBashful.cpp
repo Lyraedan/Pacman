@@ -3,6 +3,7 @@
 GhostBashful::GhostBashful(const Vector2f & position) : Ghost(position)
 {
 	respawn = position;
+	currentTile = position;
 	activeResourceKey = "ghost_bashful";
 	name = "bashful";
 	scatterPoints[0] = Vector2f(25, 26);
@@ -18,14 +19,20 @@ GhostBashful::~GhostBashful(void)
 
 void GhostBashful::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (currentPath.size() == 0) {
+	if (currentPath.empty()) {
 		if (!isDead) {
 			world->GetPath(currentTile, nextTile, currentPath);
 		}
 	}
 
-	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
-		currentScatterIndex++;
+	if (isScattering || isVulnerable) {
+		Vector2f currentScatterPoint = scatterPoints[currentScatterIndex % 4];
+		if (!world->TileIsValid(currentScatterPoint)) {
+			currentScatterIndex++;
+		}
+		if (currentTile == currentScatterPoint) {
+			currentScatterIndex++;
+		}
 	}
 
 	if (isVulnerable || isScattering) {

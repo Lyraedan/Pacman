@@ -25,8 +25,14 @@ void GhostShadow::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 		}
 	}
 
-	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
-		currentScatterIndex++;
+	if (isScattering || isVulnerable) {
+		Vector2f currentScatterPoint = scatterPoints[currentScatterIndex % 4];
+		if (!world->TileIsValid(currentScatterPoint)) {
+			currentScatterIndex++;
+		}
+		if (currentTile == currentScatterPoint) {
+			currentScatterIndex++;
+		}
 	}
 
 	if (isVulnerable || isScattering) {
@@ -42,7 +48,6 @@ void GhostShadow::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (!world->TileIsValid(nextTile)) {
-		nextTile = scatterPoints[currentScatterIndex % 4];
-		currentScatterIndex++;
+		nextTile = scatterPoints[0];
 	}
 }

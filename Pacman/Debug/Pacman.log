@@ -1,13 +1,2 @@
-﻿  GhostShadow.cpp
-  World.cpp
-h:\ubisoftpacman\pacman\world.cpp(46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(46): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(50): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(54): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\world.cpp(140): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
+﻿  GhostPokey.cpp
   Pacman.vcxproj -> H:\UbisoftPacman\Debug\Pacman.exe

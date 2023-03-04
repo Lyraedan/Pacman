@@ -3,6 +3,7 @@
 GhostPokey::GhostPokey(const Vector2f & position) : Ghost(position)
 {
 	respawn = position;
+	currentTile = position;
 	activeResourceKey = "ghost_pokey";
 	name = "pokey";
 	scatterPoints[0] = Vector2f(0, 26);
@@ -18,14 +19,20 @@ GhostPokey::~GhostPokey(void)
 
 void GhostPokey::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (currentPath.size() == 0) {
+	if (currentPath.empty()) {
 		if (!isDead) {
 			world->GetPath(currentTile, nextTile, currentPath);
 		}
 	}
 
-	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
-		currentScatterIndex++;
+	if (isScattering || isVulnerable) {
+		Vector2f currentScatterPoint = scatterPoints[currentScatterIndex % 4];
+		if (!world->TileIsValid(currentScatterPoint)) {
+			currentScatterIndex++;
+		}
+		if (currentTile == currentScatterPoint) {
+			currentScatterIndex++;
+		}
 	}
 
 	if (isVulnerable || isScattering) {
@@ -44,9 +51,7 @@ void GhostPokey::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 				nextTile = pacmanPosition;
 
 				if (inRangeOfPacman) {
-					ClearPath();
-					currentScatterIndex++;
-					nextTile = scatterPoints[currentScatterIndex % 4];
+					isScattering = true;
 					flee = true;
 				}
 			}
@@ -58,6 +63,8 @@ void GhostPokey::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 	}
 
 	if (HasReachedEndOfPath() && flee) {
+		if (!isVulnerable && !isDead)
+			isScattering = false;
 		flee = false;
 	}
 }

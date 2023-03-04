@@ -73,7 +73,6 @@ void Ghost::Update(float delta, World* world)
 		}
 	}
 
-
 	// Move the ghosts
 	int tileSize = 22;
 	Vector2f destination = Vector2f(nextTile.x * tileSize, nextTile.y * tileSize);
