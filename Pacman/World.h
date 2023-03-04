@@ -65,6 +65,8 @@ private:
 	bool InitMap();
 	bool SpawnCherry();
 
+	bool drawMapTiles = false;
+
 };
 
 #endif // WORLD_H

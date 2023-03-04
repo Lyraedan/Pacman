@@ -67,13 +67,23 @@ bool World::InitMap()
 
 bool World::SpawnCherry()
 {
-	cherry = new Cherry(Vector2f(13 * 22, 16 * 22));
+	cherry = new Cherry(Vector2f(13, 16));
 	return true;
 }
 
 void World::Draw(Drawer* drawer)
 {
 	drawer->DrawResource(drawer->resources["map"]);
+
+	if (drawMapTiles) {
+		for (PathmapTile* tile : mapTiles) {
+			Vector2f tilePosition = tile->GetPosition();
+			tilePosition *= 22;
+			int x = tilePosition.x + 220;
+			int y = tilePosition.y + 60;
+			drawer->DrawResource(drawer->resources[tile->isSolid ? "target" : "target_free"], x, y);
+		}
+	}
 	
 	for(Dot* dot : dots)
 	{
@@ -105,7 +115,8 @@ void World::Update() {
 bool World::TileIsValid(Vector2f& position)
 {
 	for (PathmapTile* tile : mapTiles) {
-		if (position == tile->GetPosition() && !tile->isSolid)
+		Vector2f tilePosition = tile->GetPosition();
+		if (position.x == tilePosition.x && position.y == tilePosition.y && !tile->isSolid)
 			return true;
 	}
 	return false;
@@ -200,7 +211,8 @@ PathmapTile* World::GetTile(Vector2f at)
 {
 	for (PathmapTile* tile : mapTiles)
 	{
-		if (tile->GetPosition() == at) {
+		Vector2f position = tile->GetPosition();
+		if (position.x == at.x && position.y == at.y) {
 			return tile;
 		}
 	}
@@ -220,12 +232,13 @@ bool World::Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>
 	if (from->isSolid)
 		return false;
 
-	if (from == to)
+	Vector2f fromPosition = from->GetPosition();
+	Vector2f toPosition = to->GetPosition();
+
+	if (fromPosition.x == toPosition.x && fromPosition.y == toPosition.y)
 		return true;
 
 	std::list<PathmapTile*> neighborList;
-
-	Vector2f fromPosition = from->GetPosition();
 
 	PathmapTile* up = GetTile(Vector2f(fromPosition.x, fromPosition.y - 1));
 	if (up && !up->isVisited && !up->isSolid && ListDoesNotContain(up, currentPath)) {

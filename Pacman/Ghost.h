@@ -34,11 +34,11 @@ public:
 	void Draw(Drawer* drawer);
 
 	bool HasReachedEndOfPath() {
-		return currentTile == nextTile;
+		return currentTile.x == nextTile.x && currentTile.y == nextTile.y;
 	}
 
 	bool HasReachedRespawnPoint() {
-		return currentTile == respawn;
+		return currentTile.x == respawn.x && currentTile.y == nextTile.y;
 	}
 
 	void ClearPath() {
@@ -55,7 +55,6 @@ public:
 protected:
 
 	float speedMultiplier = 5.f;
-	Vector2f desiredMovement = Vector2f(0, 0);
 	bool nextFrame = false;
 	std::string name = "shadow";
 

@@ -79,10 +79,13 @@ bool Pacman::Update(float delta)
 		pacman->Update(delta);
 		world->Update();
 
+		ghosts[0]->Behaviour(world, pacman, ghosts);
+		ghosts[0]->Update(delta, world);
+
 		for (int i = 0; i < GhostCount(); i++) {
 			if (!pacman->dieAnimation) {
-				ghosts[i]->Behaviour(world, pacman, ghosts);
-				ghosts[i]->Update(delta, world);
+				//ghosts[i]->Behaviour(world, pacman, ghosts);
+				//ghosts[i]->Update(delta, world);
 			}
 
 			// If the ghosts touch a teleporter teleport them to the teleporter adjacent

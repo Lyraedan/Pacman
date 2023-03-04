@@ -3,6 +3,7 @@
 GhostShadow::GhostShadow(const Vector2f & position) : Ghost(position)
 {
 	respawn = position;
+	currentTile = position;
 	activeResourceKey = "ghost_shadow";
 	name = "shadow";
 	scatterPoints[0] = Vector2f(25, 1);

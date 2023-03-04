@@ -5,12 +5,10 @@
 
 Ghost::Ghost(const Vector2f& position) : MovableGameEntity(position)
 {
-	activeResourceKey = "ghost_test";
+	activeResourceKey = "";
 
 	isVulnerable = false;
 	isDead = false;
-
-	desiredMovement = Vector2f(0, -1);
 }
 
 Ghost::~Ghost(void)

@@ -42,6 +42,7 @@ bool Drawer::Init()
 	// Debugging
 	resources["target"] = new GameImage("path_dest.png", renderer);
 	resources["target_path"] = new GameImage("path_next.png", renderer);
+	resources["target_free"] = new GameImage("tile_free.png", renderer);
 	
 	// Ghosts
 	resources["ghost_dead"] = new GameImage("Ghost_Dead_32.png", renderer);

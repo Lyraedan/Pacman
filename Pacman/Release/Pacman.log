@@ -1,11 +1,7 @@
-﻿  MovableGameEntity.cpp
-h:\ubisoftpacman\pacman\vector2f.h(73): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\movablegameentity.cpp(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\movablegameentity.cpp(28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\movablegameentity.cpp(39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  GhostShadow.cpp
   Generating code
-  9 of 854 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  4 of 855 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Pacman.vcxproj -> H:\UbisoftPacman\Release\Pacman.exe
