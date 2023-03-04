@@ -7,7 +7,7 @@
 #include <iostream>
 
 #if (_MSC_VER >= 1915)
-#define no_init_all deprecated
+#define no_init_all
 #endif
 
 

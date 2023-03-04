@@ -1,11 +1,1 @@
-﻿  AudioPlayer.cpp
-  Pacman.cpp
-h:\ubisoftpacman\pacman\vector2f.h(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\pathmaptile.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\pacman.cpp(204): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-h:\ubisoftpacman\pacman\pacman.cpp(205): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  main.cpp
-h:\ubisoftpacman\pacman\vector2f.h(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-h:\ubisoftpacman\pacman\pathmaptile.h(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-  Pacman.vcxproj -> H:\UbisoftPacman\Debug\Pacman.exe
+﻿  Pacman.vcxproj -> H:\UbisoftPacman\Debug\Pacman.exe

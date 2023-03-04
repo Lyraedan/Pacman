@@ -32,6 +32,7 @@ Pacman::Pacman(Drawer* aDrawer)
 	audioPlayer = new AudioPlayer();
 
 	menu = new TitleMenu();
+	audioPlayer->PlayWavOnce("intro.wav", 6, 190.f, 0, false);
 }
 
 Pacman::~Pacman(void)
@@ -56,18 +57,20 @@ bool Pacman::Update(float aTime)
 	else {
 		if (readyTime <= readyDelay) {
 			readyTime++;
-			audioPlayer->PlayWavOnce("intro.wav", 6, 190.f);
+			audioPlayer->PlayWavOnce("intro.wav", 6, 190.f, 0, false);
 			return true;
 		}
 
 		if (CheckEndGameCondition())
 		{
 			menu = new WinMenu(myScore);
+			audioPlayer->Stop();
 			return true;
 		}
 		else if (myLives <= 0)
 		{
 			menu = new LoseMenu(myScore);
+			audioPlayer->Stop();
 			return true;
 		}
 
@@ -81,6 +84,7 @@ bool Pacman::Update(float aTime)
 				ghosts[i]->Update(aTime, myWorld);
 			}
 
+			// If the ghosts touch a teleporter teleport them to the teleporter adjacent
 			Teleport* currentGhostTeleport = myWorld->HasIntersectedTeleport(ghosts[i]->GetPosition());
 			if (currentGhostTeleport != NULL) {
 				if (currentGhostTeleport->teleportIndex == 0) {
@@ -99,9 +103,16 @@ bool Pacman::Update(float aTime)
 				}
 			}
 
+			// Stop the ghost scared sfx as the claimable phase ends
+			if (ghosts[i]->claimableTimer >= ghosts[i]->claimableLength - 1) {
+				audioPlayer->Stop();
+			}
+
+			// If the ghosts touch pacman
 			if (myWorld->HasIntersectedPacman(ghosts[i], myAvatar)) {
 				if (ghosts[i]->myIsClaimableFlag) {
 					if (!ghosts[i]->myIsDeadFlag) {
+						// Kill the ghosts
 						myScore += 50;
 						ghosts[i]->myIsDeadFlag = true;
 						ghosts[i]->Die(myWorld);
@@ -109,11 +120,10 @@ bool Pacman::Update(float aTime)
 				}
 				else {
 					// attack pacman
-					audioPlayer->PlayWavOnce("pacman_death.wav", 1.7f, 220.f);
+					audioPlayer->PlayWavOnce("pacman_death.wav", 1.7f, 220.f, 2, false);
 
 					myAvatar->Die([=]() {
 						myLives--;
-						ghosts[i]->ClearPath();
 						myAvatar->TeleportTo(13, 22, 13, 22);
 						for (int j = 0; j < GhostCount(); j++) {
 							ghosts[j]->ClearPath();
@@ -124,20 +134,25 @@ bool Pacman::Update(float aTime)
 							ghosts[j]->myIsClaimableFlag = false;
 							ghosts[j]->myIsDeadFlag = false;
 						}
+						audioPlayer->SetCurrentPriority(0);
 					});
 				}
 			}
 		}
 
+		// If pacman touches a dot
 		if (myWorld->HasIntersectedDot(myAvatar->GetPosition())) {
 			myScore += 10;
-			audioPlayer->PlayWavOnce("waka.wav", 0.25f, 5.f);
+			audioPlayer->PlayWavOnce("waka.wav", 0.25f, 5.f, 0, false);
 		}
 
+		// If pacman picks up fruit
 		if (myWorld->HasIntersectedCherry(myAvatar->GetPosition())) {
 			myScore += 100;
+			audioPlayer->PlayWavOnce("fruit.wav", 1.f, 5.f, 0, false);
 		}
 
+		// If pacman touches a teleporter teleport him to the adjacent teleporter
 		Teleport* currentPlayerTeleport = myWorld->HasIntersectedTeleport(myAvatar->GetPosition());
 		if (currentPlayerTeleport != NULL) {
 			if (currentPlayerTeleport->teleportIndex == 0) {
@@ -158,13 +173,17 @@ bool Pacman::Update(float aTime)
 			}
 		}
 
+		// If pacman picks up a big dot
 		if (myWorld->HasIntersectedBigDot(myAvatar->GetPosition()))
 		{
 			myScore += 20;
+			audioPlayer->PlayWavOnce("ghosts_scared.wav", 6, 190.f, 1, true);
 			for (int i = 0; i < GhostCount(); i++) {
-				ghosts[i]->ClearPath();
-				ghosts[i]->claimableTimer = 0;
-				ghosts[i]->myIsClaimableFlag = true;
+				if (!ghosts[i]->myIsDeadFlag) {
+					ghosts[i]->ClearPath();
+					ghosts[i]->claimableTimer = 0;
+					ghosts[i]->myIsClaimableFlag = true;
+				}
 			}
 		}
 
@@ -179,8 +198,10 @@ bool Pacman::UpdateInput()
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
 	if (menu != NULL) {
-		if (keystate[SDL_SCANCODE_SPACE])
+		if (keystate[SDL_SCANCODE_SPACE]) {
+			audioPlayer->Stop();
 			menu = NULL;
+		}
 	}
 	else {
 		if (keystate[SDL_SCANCODE_UP])
