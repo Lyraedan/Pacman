@@ -235,11 +235,12 @@ bool World::Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>
 	Vector2f fromPosition = from->GetPosition();
 	Vector2f toPosition = to->GetPosition();
 
-	if (fromPosition.x == toPosition.x && fromPosition.y == toPosition.y)
+	if (from == to)
 		return true;
 
 	std::list<PathmapTile*> neighborList;
 
+	// Check neighbouring tiles and add any that are avaliable to the neighbor list
 	PathmapTile* up = GetTile(Vector2f(fromPosition.x, fromPosition.y - 1));
 	if (up && !up->isVisited && !up->isSolid && ListDoesNotContain(up, currentPath)) {
 		neighborList.push_front(up);
@@ -260,6 +261,7 @@ bool World::Pathfind(PathmapTile* from, PathmapTile* to, std::list<PathmapTile*>
 		neighborList.push_front(left);
 	}
 
+	// Sort the neighbours by chosing the next tile closest to the target
 	neighborList.sort([to](PathmapTile* a, PathmapTile* b) {
 		if (to == nullptr)
 			return false;

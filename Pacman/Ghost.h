@@ -34,11 +34,11 @@ public:
 	void Draw(Drawer* drawer);
 
 	bool HasReachedEndOfPath() {
-		return currentTile.x == nextTile.x && currentTile.y == nextTile.y;
+		return currentTile == nextTile;
 	}
 
 	bool HasReachedRespawnPoint() {
-		return currentTile.x == respawn.x && currentTile.y == nextTile.y;
+		return currentTile == respawn;
 	}
 
 	void ClearPath() {
@@ -74,7 +74,7 @@ protected:
 	bool initialSetup = false;
 
 	// Debugging
-	bool showPath = false;
+	bool showPath = true;
 	bool showNextTarget = false;
 
 private:
