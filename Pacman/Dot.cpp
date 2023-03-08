@@ -1,7 +1,6 @@
 #include "Dot.h"
 
-Dot::Dot(Vector2f aPosition)
-: StaticGameEntity(aPosition)
+Dot::Dot(Vector2f position) : StaticGameEntity(position)
 {
 	activeResourceKey = "dot";
 }

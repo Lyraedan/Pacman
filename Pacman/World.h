@@ -3,6 +3,19 @@
 
 #include <list>
 #include "Vector2f.h"
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <string>
+
+#include "PathmapTile.h"
+#include "Ghost.h"
+#include "Avatar.h"
+#include "Dot.h"
+#include "BigDot.h"
+#include "Cherry.h"
+#include "Teleport.h"
+#include "Drawer.h"
 
 class Drawer;
 class PathmapTile;
@@ -22,44 +35,43 @@ public:
 
 	void Init();
 
-	void Draw(Drawer* aDrawer);
-	bool TileIsValid(int anX, int anY);
-	PathmapTile* GetNearestTileTo(int x, int y);
+	void Draw(Drawer* drawer);
+	bool TileIsValid(int x, int y);
 
-	bool HasIntersectedDot(const Vector2f& aPosition);
-	bool HasIntersectedBigDot(const Vector2f& aPosition);
-	bool HasIntersectedCherry(const Vector2f& aPosition);
+	bool HasIntersectedDot(const Vector2f& position);
+	bool HasIntersectedBigDot(const Vector2f& position);
+	bool HasIntersectedCherry(const Vector2f& position);
 	bool HasIntersectedPacman(const Ghost* ghost, const Avatar* pacman);
-	Teleport* HasIntersectedTeleport(const Vector2f& aPosition);
+	Teleport* HasIntersectedTeleport(const Vector2f& position);
 
 	void Update();
 
-	void GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList);
+	void GetPath(int fromX, int fromY, int toX, int toY, std::list<PathmapTile*>& path);
 
 	int DotsCount() {
-		return myDots.size();
+		return dots.size();
 	};
 
 	int BigDotsCount() {
-		return myDots.size();
+		return dots.size();
 	}
 
 	float DistanceFrom(Vector2f src, Vector2f dest) {
-		return sqrt(pow(dest.myX - src.myX, 2) +
-			   pow(dest.myY - src.myY, 2));
+		return sqrt(pow(dest.x - src.x, 2) +
+			   pow(dest.y - src.y, 2));
 	}
 
 	Cherry* cherry;
 
 private:
 
-	PathmapTile* GetTile(int aFromX, int aFromY);
-	bool Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList);
-	bool ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList);
+	PathmapTile* GetTile(int fromX, int fromY);
+	bool Pathfind(PathmapTile* fromTile, PathmapTile* toTile, std::list<PathmapTile*>& path);
+	bool ListDoesNotContain(PathmapTile* fromTile, std::list<PathmapTile*>& path);
 
-	std::list<PathmapTile*> myPathmapTiles;
-	std::list<Dot*> myDots;
-	std::list<BigDot*> myBigDots;
+	std::list<PathmapTile*> mapTiles;
+	std::list<Dot*> dots;
+	std::list<BigDot*> bigDots;
 	std::list<Teleport*> teleports;
 
 	bool InitMap();

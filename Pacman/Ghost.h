@@ -15,30 +15,32 @@ class Vector2f;
 class Ghost : public MovableGameEntity
 {
 public:
-	Ghost(const Vector2f& aPosition);
+	Ghost(const Vector2f& position);
 	~Ghost(void);
 
-	void Update(float aTime, World* aWorld);
+	void Update(float delta, World* world);
 
-	bool myIsClaimableFlag;
-	bool myIsDeadFlag;
+	bool isVulnerable;
+	bool isDead;
 
 	void SetResource(const char* resourceKey);
 
-	void Die(World* aWorld);
+	void Die(World* world);
 
 	void UpdateEyes(Vector2f direction);
 
-	virtual void Behaviour(World* aWorld, Avatar* pacman, Ghost* ghosts[4]) {}
+	// Overridable behaviour function used to implement individual ghost AI
+	virtual void Behaviour(World* world, Avatar* pacman, Ghost* ghosts[4]) { }
 
-	void Draw(Drawer* aDrawer);
+	void Draw(Drawer* drawer);
 
+	// Works slightly differently from IsAtDestination
 	bool HasReachedEndOfPath() {
-		return myCurrentTileX == nextTile.myX && myCurrentTileY == nextTile.myY;
+		return currentTileX == nextTile.x && currentTileY == nextTile.y;
 	}
 
 	bool HasReachedRespawnPoint() {
-		return myCurrentTileX == spawnX && myCurrentTileY == spawnY;
+		return currentTileX == spawnX && currentTileY == spawnY;
 	}
 
 	void ClearPath() {
@@ -49,26 +51,23 @@ public:
 
 	int claimableTimer = 0;
 	int claimableLength = 3000;
-	int respawnX = 13;
-	int respawnY = 13;
 	float speed = 30.f;
 
 protected:
 
 	float speedMultiplier = 5.f;
-	int myDesiredMovementX;
-	int myDesiredMovementY;
 	bool nextFrame = false;
 	std::string name = "shadow";
 
 	std::list<PathmapTile*> myPath;
 
 	Vector2f nextTile = Vector2f(13, 13);
-	int currentScatterIndex = 0;
 
 	int spawnX = 13;
 	int spawnY = 13;
 
+	// Handle ghost scattering mechanic
+	int currentScatterIndex = 0;
 	int scatterTimer = 0;
 	int scatterDelay = 15 * 1000;
 	bool isScattering = false;
@@ -82,10 +81,12 @@ protected:
 	bool showNextTarget = false;
 
 private:
+	// Animation
 	int animation_delta_time = 0;
 	int animation_time = 30;
 	std::string eyePhase = "right";
 
+	// Pathfinding update
 	int path_update_time = 0;
 	int path_update_interval = 1000;
 };

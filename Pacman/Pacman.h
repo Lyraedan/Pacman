@@ -39,34 +39,38 @@ class Menu;
 class Pacman
 {
 public:
-	static Pacman* Create(Drawer* aDrawer);
+	static Pacman* Create(Drawer* drawer);
 	~Pacman(void);
 
-	bool Update(float aTime);
+	bool Update(float delta);
 	bool Draw();
 
 private:
-	Pacman(Drawer* aDrawer);
+	Pacman(Drawer* drawer);
 	bool Init();
 	bool UpdateInput();
 	void MoveAvatar();
-	bool CheckEndGameCondition();
+	void HandleGhosts(float delta);
+	void HandlePickups();
+	void HandleTeleport();
+
+	bool HasWon() {
+		return world->DotsCount() == 0 && world->BigDotsCount() == 0;
+	}
 
 	int GhostCount() {
 		return sizeof(ghosts) / sizeof(int);
 	}
 
-	Drawer* myDrawer;
+	Drawer* drawer;
 
-	float myTimeToNextUpdate;
+	int lives;
+	int score;
+	int fps;
 
-	int myLives;
-	int myScore;
-	int myFps;
-
-	Avatar* myAvatar;
+	Avatar* pacman;
 	Ghost* ghosts[4];
-	World* myWorld;
+	World* world;
 
 	AudioPlayer* audioPlayer;
 	Menu* menu;

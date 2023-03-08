@@ -9,23 +9,21 @@ class Drawer;
 class GameEntity
 {
 public:
-	GameEntity(const Vector2f& aPosition);
+	GameEntity(const Vector2f& position);
 	~GameEntity(void);
 
-	Vector2f GetPosition() const { return myPosition; }
-	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
+	Vector2f GetPosition() const 
+	{
+		return position;
+	}
 
 	void Update();
-	virtual void Draw(Drawer* aDrawer);
+	virtual void Draw(Drawer* drawer);
 
-	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
-	bool IsMarkedForDelete() const { return myIdMarkedForDeleteFlag; }
-
-	Vector2f myPosition;
+	Vector2f position;
 
 protected:
 
-	bool myIdMarkedForDeleteFlag;
 	std::string activeResourceKey;
 };
 

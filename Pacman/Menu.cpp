@@ -8,10 +8,10 @@ Menu::~Menu()
 {
 }
 
-void Menu::Update(float aTime)
+void Menu::Update(float delta)
 {
 }
 
-void Menu::Draw(Drawer * aDrawer)
+void Menu::Draw(Drawer * drawer)
 {
 }

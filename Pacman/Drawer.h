@@ -12,22 +12,21 @@ struct SDL_Surface;
 class Drawer
 {
 public:
-	static Drawer* Create(SDL_Window* aWindow, SDL_Renderer* aRenderer);
+	static Drawer* Create(SDL_Window* window, SDL_Renderer* renderer);
 	~Drawer(void);
 
-	void DrawText(const char* aText, const char* aFontFile, int aX, int aY, SDL_Color color = { 255, 255, 255, 255 });
+	void DrawText(const char* text, const char* fontFile, int x, int y, SDL_Color color = { 255, 255, 255, 255 });
 	
 	void DrawResource(GameImage* resource, int x = 0, int y = 0);
 
 	std::map<std::string, GameImage*> resources;
 
 private:
-	Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer);
+	Drawer(SDL_Window* window, SDL_Renderer* renderer);
 	bool Init();
 	
-	SDL_Window* myWindow;
-	SDL_Renderer* myRenderer;
-	SDL_Surface* world;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 };
 
 #endif // DRAWER_H

@@ -1,7 +1,6 @@
 #include "Teleport.h"
 
-Teleport::Teleport(Vector2f aPosition) 
-	: StaticGameEntity(aPosition) 
+Teleport::Teleport(Vector2f position) : StaticGameEntity(position)
 {
 	activeResourceKey = "";
 }

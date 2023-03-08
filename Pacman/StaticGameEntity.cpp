@@ -1,7 +1,6 @@
 #include "StaticGameEntity.h"
 
-StaticGameEntity::StaticGameEntity(Vector2f aPosition)
-: GameEntity(aPosition)
+StaticGameEntity::StaticGameEntity(Vector2f position) : GameEntity(position)
 {
 }
 

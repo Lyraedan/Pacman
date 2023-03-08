@@ -1,7 +1,6 @@
 #include "Avatar.h"
 
-Avatar::Avatar(const Vector2f& aPosition)
-	: MovableGameEntity(aPosition)
+Avatar::Avatar(const Vector2f& position) : MovableGameEntity(position)
 {
 	activeResourceKey = "pacman_right_open";
 }
@@ -10,28 +9,28 @@ Avatar::~Avatar(void)
 {
 }
 
-void Avatar::Update(float aTime)
+void Avatar::Update(float delta)
 {
 	if (dieAnimation)
 		return;
 
 	int tileSize = 22;
 
-	Vector2f destination(myNextTileX * tileSize, myNextTileY * tileSize);
-	direction = destination - myPosition;
+	Vector2f destination(nextTileX * tileSize, nextTileY * tileSize);
+	direction = destination - position;
 
-	float distanceToMove = aTime * 30.f * movementSpeed;
+	float distanceToMove = delta * 30.f * movementSpeed;
 
 	if (distanceToMove > direction.Length())
 	{
-		myPosition = destination;
-		myCurrentTileX = myNextTileX;
-		myCurrentTileY = myNextTileY;
+		position = destination;
+		currentTileX = nextTileX;
+		currentTileY = nextTileY;
 	}
 	else
 	{
 		direction.Normalize();
-		myPosition += direction * distanceToMove;
+		position += direction * distanceToMove;
 	}
 
 	// Animate

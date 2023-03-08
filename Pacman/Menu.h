@@ -13,8 +13,8 @@ public:
 	Menu();
 	~Menu(void);
 
-	virtual void Update(float aTime);
-	virtual void Draw(Drawer* aDrawer);
+	virtual void Update(float delta);
+	virtual void Draw(Drawer* drawer);
 
 protected:
 	int score = 0;

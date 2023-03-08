@@ -7,7 +7,7 @@
 class Cherry : public StaticGameEntity
 {
 public:
-	Cherry(Vector2f aPosition);
+	Cherry(Vector2f position);
 	~Cherry(void);
 
 	bool pickedup = true;

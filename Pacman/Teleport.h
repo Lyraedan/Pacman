@@ -7,7 +7,7 @@
 class Teleport : public StaticGameEntity
 {
 public:
-	Teleport(Vector2f aPosition);
+	Teleport(Vector2f position);
 	~Teleport(void);
 
 	int teleportIndex;

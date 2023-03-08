@@ -8,73 +8,68 @@ class Vector2f
 public:
 	Vector2f()
 	{
-		myX = 0.f;
-		myY = 0.f;
+		x = 0.f;
+		y = 0.f;
 	}
 
-	Vector2f(float anX, float anY)
+	Vector2f(float x, float y)
 	{
-		myX = anX;
-		myY = anY;
+		this->x = x;
+		this->y = y;
 	}
 
 	const Vector2f Vector2f::operator-(const Vector2f &other) const 
 	{
-		Vector2f v(myX - other.myX, myY - other.myY);
-		return v;
+		return Vector2f (x - other.x, y - other.y);;
 	}
 
 	const Vector2f Vector2f::operator+(const Vector2f &other) const 
 	{
-		Vector2f v(myX + other.myX, myY + other.myY);
-		return v;
+		return Vector2f (x + other.x, y + other.y);
 	}
 
 	
 	const Vector2f Vector2f::operator*(const Vector2f& other) const 
 	{
-		Vector2f v(myX*other.myX, myY*other.myY);
-		return v;
+		return Vector2f (x * other.x, y * other.y);
 	}
 
 	Vector2f& Vector2f::operator+=(const Vector2f &other) 
 	{
-		myX = myX + other.myX;
-		myY = myY + other.myY;
+		x += other.x;
+		y += other.y;
+		return *this;
+	}
+
+	Vector2f& Vector2f::operator*=(const float value) 
+	{
+		x *= value;
+		y *= value;
 
 		return *this;
 	}
 
-	Vector2f& Vector2f::operator*=(const float aFloat) 
+	Vector2f& Vector2f::operator/=(const float value) 
 	{
-		myX *= aFloat;
-		myY *= aFloat;
+		x /= value;
+		y /= value;
 
 		return *this;
 	}
 
-	Vector2f& Vector2f::operator/=(const float aFloat) 
+	const Vector2f Vector2f::operator*(const float value) const 
 	{
-		myX /= aFloat;
-		myY /= aFloat;
-
-		return *this;
+		return Vector2f (x * value, y * value);
 	}
 
-	const Vector2f Vector2f::operator*(const float aValue) const 
+	const bool Vector2f::operator==(const Vector2f other) const 
 	{
-		Vector2f v(myX * aValue, myY * aValue);
-		return v;
-	}
-
-	const bool Vector2f::operator==(const Vector2f aValue) const 
-	{
-		return this->myX == aValue.myX && this->myY == aValue.myY;
+		return this->x == other.x && this->y == other.y;
 	}
 
 	float Vector2f::Length() const
 	{
-		return sqrt(myX*myX + myY*myY);
+		return (float) sqrt(x * x + y * y);
 	}
 
 	void Vector2f::Normalize()
@@ -86,12 +81,12 @@ public:
 	}
 
 	void Vector2f::Inverse() {
-		myX *= -1;
-		myY *= -1;
+		x *= -1;
+		y *= -1;
 	}
 
-	float myX;
-	float myY;
+	float x;
+	float y;
 };
 
 #endif // VECTOR2F_H

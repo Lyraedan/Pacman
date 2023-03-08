@@ -9,7 +9,7 @@ LoseMenu::~LoseMenu(void)
 {
 }
 
-void LoseMenu::Update(float time)
+void LoseMenu::Update(float delta)
 {
 	enterFlickerTime++;
 	if (enterFlickerTime >= enterFlickerDelay) {

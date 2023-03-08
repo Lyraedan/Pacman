@@ -1,9 +1,7 @@
 #include "GhostShadow.h"
 
-GhostShadow::GhostShadow(const Vector2f & aPosition) : Ghost(aPosition)
+GhostShadow::GhostShadow(const Vector2f & position) : Ghost(position)
 {
-	respawnX = aPosition.myX;
-	respawnY = aPosition.myY;
 	activeResourceKey = "ghost_shadow";
 	name = "shadow";
 	myPath.clear();
@@ -18,32 +16,32 @@ GhostShadow::~GhostShadow(void)
 {
 }
 
-void GhostShadow::Behaviour(World * aWorld, Avatar * pacman, Ghost * ghosts[4])
+void GhostShadow::Behaviour(World * world, Avatar * pacman, Ghost * ghosts[4])
 {
-	if (myPath.size() == 0) {
-		if (!myIsDeadFlag) {
-			aWorld->GetPath(myCurrentTileX, myCurrentTileY, nextTile.myX, nextTile.myY, myPath);
+	if (myPath.empty()) {
+		if (!isDead) {
+			world->GetPath(currentTileX, currentTileY, nextTile.x, nextTile.y, myPath);
 		}
 	}
 
-	if ((isScattering || myIsClaimableFlag) && HasReachedEndOfPath()) {
+	if ((isScattering || isVulnerable) && HasReachedEndOfPath()) {
 		currentScatterIndex++;
 	}
 
-	if (myIsClaimableFlag || isScattering) {
-		if (!myIsDeadFlag) {
+	if (isVulnerable || isScattering) {
+		if (!isDead) {
 			nextTile = scatterPoints[currentScatterIndex % 4];
 		}
 	}
 	else {
 		if (initialSetup) {
-			Vector2f pacmanPosition = pacman->myPosition;
+			Vector2f pacmanPosition = pacman->GetPosition();
 			pacmanPosition /= 22;
 			nextTile = pacmanPosition;
 		}
 	}
 
-	if (!aWorld->TileIsValid(nextTile.myX, nextTile.myY)) {
+	if (!world->TileIsValid(nextTile.x, nextTile.y)) {
 		nextTile = scatterPoints[0];
 	}
 }

@@ -1,10 +1,11 @@
 #include "MovableGameEntity.h"
 
-MovableGameEntity::MovableGameEntity(const Vector2f& aPosition)
-: GameEntity(aPosition)
+MovableGameEntity::MovableGameEntity(const Vector2f& position) : GameEntity(position)
 {
-	myCurrentTileX = myNextTileX =  myPosition.myX / 22;
-	myCurrentTileY = myNextTileY =  myPosition.myY / 22;
+	currentTileX = position.x / 22;
+	currentTileY = position.y / 22;
+	nextTileX = currentTileX;
+	nextTileY = currentTileY;
 }
 
 MovableGameEntity::~MovableGameEntity(void)
@@ -13,20 +14,20 @@ MovableGameEntity::~MovableGameEntity(void)
 
 void MovableGameEntity::TeleportTo(int x, int y, int nextX, int nextY)
 {
-	myPosition.myX = x * 22;
-	myPosition.myY = y * 22;
-	myCurrentTileX = x;
-	myCurrentTileY = y;
+	position.x = x * 22;
+	position.y = y * 22;
+	currentTileX = x;
+	currentTileY = y;
 	SetNextTile(nextX, nextY);
 }
 
 bool MovableGameEntity::IsAtDestination()
 {
-	return myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY;
+	return currentTileX == nextTileX && currentTileY == nextTileY;
 }
 
-void MovableGameEntity::SetNextTile(int anX, int anY)
+void MovableGameEntity::SetNextTile(int x, int y)
 {
-	myNextTileX = anX;
-	myNextTileY = anY;
+	nextTileX = x;
+	nextTileY = y;
 }

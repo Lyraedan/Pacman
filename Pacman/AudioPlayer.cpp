@@ -12,7 +12,7 @@ bool AudioPlayer::PlayWav(const char * filename, bool loop)
 
 bool AudioPlayer::PlayWavOnce(char * filename, float audioLength, float audioLengthMul, int priority, bool loop)
 {
-	bool doPlay = false;
+	bool doPlay = true;
 	if (priority >= currentSoundPriority) {
 		SetCurrentPriority(priority);
 
@@ -36,7 +36,7 @@ bool AudioPlayer::PlayWavOnce(char * filename, float audioLength, float audioLen
 		currentSoundLength = 0;
 		currentSoundMultiplier = 0;
 	}
-	return true;
+	return doPlay;
 }
 
 bool AudioPlayer::Stop()

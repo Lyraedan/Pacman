@@ -7,12 +7,20 @@
 class MovableGameEntity : public GameEntity
 {
 public:
-	MovableGameEntity(const Vector2f& aPosition);
+	MovableGameEntity(const Vector2f& position);
 	~MovableGameEntity(void);
 
-	void SetNextTile(int anX, int anY);
-	int GetCurrentTileX() const { return myCurrentTileX; }
-	int GetCurrentTileY() const { return myCurrentTileY; }
+	void SetNextTile(int x, int y);
+	
+	int GetCurrentTileX() const 
+	{
+		return currentTileX; 
+	}
+
+	int GetCurrentTileY() const 
+	{
+		return currentTileY; 
+	}
 
 	void TeleportTo(int x, int y, int nextX, int nextY);
 
@@ -20,11 +28,13 @@ public:
 
 protected:
 
-	int myCurrentTileX;
-	int myCurrentTileY;
+	// current tile coordinates scaled to the grid
+	int currentTileX;
+	int currentTileY;
 
-	int myNextTileX;
-	int myNextTileY;
+	// Next tile coordinates scaled to the grid
+	int nextTileX;
+	int nextTileY;
 
 };
 

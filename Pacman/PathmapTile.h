@@ -8,16 +8,16 @@ class Vector2f;
 class PathmapTile
 {
 public:
-	PathmapTile(int anX, int anY, bool aIsBlockingFlag);
+	PathmapTile(int x, int y, bool isSolid);
 	~PathmapTile(void);
 
-	int myX;
-	int myY;
-	Vector2f myPosition() {
-		return Vector2f(myX, myY);
+	int x;
+	int y;
+	Vector2f GetPosition() {
+		return Vector2f((float) x, (float) y);
 	}
-	bool myIsBlockingFlag;
-	bool myIsVisitedFlag;
+	bool isSolid;
+	bool isVisited;
 
 };
 

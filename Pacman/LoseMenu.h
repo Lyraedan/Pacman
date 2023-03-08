@@ -6,7 +6,7 @@ public:
 	LoseMenu(int score);
 	~LoseMenu(void);
 
-	void Update(float time);
+	void Update(float delta);
 	void Draw(Drawer* drawer);
 
 private:

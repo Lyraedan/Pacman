@@ -13,10 +13,10 @@ class Drawer;
 class Avatar : public MovableGameEntity
 {
 public:
-	Avatar(const Vector2f& aPosition);
+	Avatar(const Vector2f& position);
 	~Avatar(void);
 
-	void Update(float aTime);
+	void Update(float delta);
 
 	void Die(std::function<void()> afterSequance);
 
@@ -33,6 +33,7 @@ public:
 private:
 	bool open = true;
 	const std::string facing = "right";
+
 	int animation_delta_time = 0;
 	int animation_time = 30;
 	float movementSpeed = 5.f;

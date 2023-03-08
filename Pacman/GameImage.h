@@ -6,6 +6,7 @@ class GameImage
 {
 	// Used for loading resources once and batching them
 public:
+	// Initialise and setup the image resource.
 	GameImage(const char* imgDir, SDL_Renderer* renderer) {
 		surface = IMG_Load(imgDir);
 		optimizedSurface = SDL_CreateTextureFromSurface(renderer, surface);
@@ -14,6 +15,12 @@ public:
 		sizeRect.y = 0;
 		sizeRect.w = surface->w;
 		sizeRect.h = surface->h;
+	}
+
+	// Release a resource.
+	void Release() {
+		SDL_DestroyTexture(optimizedSurface);
+		SDL_FreeSurface(surface);
 	}
 
 	SDL_Surface* surface;
